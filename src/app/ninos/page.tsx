@@ -12,25 +12,25 @@ export default async function Home() {
         <header className="bg-white shadow-md sticky top-0 z-50">
           {/* Top Promo Bar */}
           <div className="bg-gray-100 text-center text-sm text-red-600 py-1">
-          <Link href="/ofertas" className="hover:underline">DEALS OTOÑO-INVIERNO | HASTA UN 50% DE DESCUENTO EN ARTÍCULOS SELECCIONADOS</Link>
+            DEALS OTOÑO-INVIERNO | HASTA UN 50% DE DESCUENTO EN ARTÍCULOS SELECCIONADOS
           </div>
 
           {/* Main Header */}
           <div className="container mx-auto flex justify-between items-center py-4">
             {/* Logo */}
             <h1 className="text-3xl font-bold">
-              <Link href="/">LOGO</Link>
+              <Link href="/">JACK&JONES</Link>
             </h1>
 
             {/* Navigation */}
             <nav className="flex gap-8">
-              <Link href="/" className="text-black font-bold">
+              <Link href="/" className="hover:text-gray-600">
                 HOMBRES
               </Link>
               <Link href="/mujeres" className="hover:text-gray-600">
                 MUJERES
               </Link>
-              <Link href="/ninos" className="hover:text-gray-600">
+              <Link href="/ninos" className="text-black font-bold">
                 NIÑOS
               </Link>
             </nav>
@@ -48,15 +48,9 @@ export default async function Home() {
                 </button>
               </div>
               <div className="flex gap-4">
-                {session ? (
-  <Link href="/profile" className="text-gray-600 hover:text-black">
-    👤
-  </Link>
-) : (
-  <Link href="/api/auth/signin" className="text-gray-600 hover:text-black">
-    👤
-  </Link>
-)}
+                <Link href="/profile" className="text-gray-600 hover:text-black">
+                  👤
+                </Link>
                 <Link href="/wishlist" className="text-gray-600 hover:text-black">
                   ❤️
                 </Link>
@@ -90,15 +84,6 @@ export default async function Home() {
               </Link>
               <Link href="/ofertas" className="hover:text-gray-700">
                 OFERTAS
-              </Link>
-              <Link href="/premium" className="hover:text-gray-700">
-                PREMIUM
-              </Link>
-              <Link href="/plus-size" className="hover:text-gray-700">
-                PLUS SIZE
-              </Link>
-              <Link href="/better-world" className="hover:text-gray-700">
-                A/BETTER WORLD
               </Link>
             </div>
           </div>

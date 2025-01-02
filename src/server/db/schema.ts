@@ -5,6 +5,8 @@ import {
   primaryKey,
   sqliteTableCreator,
   text,
+  integer,
+  sqliteTable,
 } from "drizzle-orm/sqlite-core";
 import { type AdapterAccount } from "next-auth/adapters";
 
@@ -114,3 +116,11 @@ export const verificationTokens = createTable(
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
   })
 );
+
+export const products = sqliteTable("products", {
+  id: integer("id").primaryKey().notNull(),
+  name: text("name"),
+  price: integer("price"),
+  description: text("description"),
+  imageUrl: text("image_url"),
+});
