@@ -119,8 +119,8 @@ export const verificationTokens = createTable(
 
 export const products = sqliteTable("products", {
   id: integer("id").primaryKey().notNull(),
-  name: text("name"),
-  price: integer("price"),
+  name: text("name").notNull(),
+  price: integer("price").notNull(),
   description: text("description"),
-  imageUrl: text("image_url"),
+  imageUrl: text("image_url").notNull(),
 });

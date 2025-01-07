@@ -1,9 +1,13 @@
 import Link from "next/link";
-import { HydrateClient } from "~/trpc/server";
+import { api, HydrateClient } from "~/trpc/server";
 import { auth } from "~/server/auth";
+import Image from "next/image";
+import HeroImage from "./assets/images/Posando.png";
 
 export default async function Home() {
   const session = await auth();
+
+  const products = await api.products.getAllProducts();
 
   return (
     <HydrateClient>
@@ -19,14 +23,14 @@ export default async function Home() {
           </div>
 
           {/* Main Header */}
-          <div className="flex items-center justify-between px-6 py-5 mx-auto max-w-[2050px]">
+          <div className="mx-auto grid max-w-[2050px] grid-cols-3 items-center px-6 py-5">
             {/* Logo */}
             <h1 className="text-3xl font-bold">
               <Link href="/">LOGO</Link>
             </h1>
 
             {/* Navigation */}
-            <nav className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center gap-8 top-20">
+            <nav className="flex items-center justify-center gap-8">
               <Link href="/" className="font-bold text-black">
                 HOMBRES
               </Link>
@@ -39,7 +43,7 @@ export default async function Home() {
             </nav>
 
             {/* Search and Icons */}
-            <div className="flex items-center gap-6">
+            <div className="flex items-center justify-end gap-6">
               <div className="relative">
                 <input
                   type="text"
@@ -113,10 +117,13 @@ export default async function Home() {
         <section className="mt-6 px-6 lg:px-6">
           {/* Hero Section */}
           <section className="relative mx-auto max-w-[2050px]">
-            <img
-              src="/images/posando.png"
+            <Image
+              src={HeroImage} // Ruta desde la carpeta public
               alt="Hero Background"
-              className="h-auto w-full"
+              layout="responsive"
+              width={2050} // Ancho real de la imagen
+              height={800} // Altura real de la imagen
+              priority // Para carga prioritaria
             />
             <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
               <div className="text-center text-white">
@@ -132,6 +139,15 @@ export default async function Home() {
                 </Link>
               </div>
             </div>
+          </section>
+
+          <section>
+            {products.map(({ name, imageUrl }, i) => (
+              <div key={i}>
+                <div>{name}</div>
+                <img src={imageUrl}></img>
+              </div>
+            ))}
           </section>
 
           {/* Promotional Section */}
