@@ -19,14 +19,14 @@ export default async function Home() {
           </div>
 
           {/* Main Header */}
-          <div className="container mx-auto flex items-center justify-between py-4">
+          <div className="flex items-center justify-between px-6 py-5 mx-auto max-w-[2050px]">
             {/* Logo */}
             <h1 className="text-3xl font-bold">
               <Link href="/">LOGO</Link>
             </h1>
 
             {/* Navigation */}
-            <nav className="flex gap-8">
+            <nav className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center gap-8 top-20">
               <Link href="/" className="font-bold text-black">
                 HOMBRES
               </Link>
@@ -80,7 +80,7 @@ export default async function Home() {
           </div>
 
           {/* Secondary Navigation */}
-          <div className="border-t border-gray-200 bg-gray-50">
+          <div className="border-t border-gray-200 bg-gray-50 py-1">
             <div className="container mx-auto flex justify-center gap-8 py-2 text-sm font-bold">
               <Link href="/novedades" className="hover:underline">
                 NOVEDADES
@@ -162,7 +162,7 @@ export default async function Home() {
           <div className="container mx-auto grid grid-cols-1 gap-6 sm:grid-cols-3">
             <div>
               <h4 className="mb-4 font-bold">Contacta con nosotros</h4>
-              <p>Email: support@cein.com</p>
+              <p>Email: support@logo.com</p>
               <p>Teléfono: +123 456 7890</p>
             </div>
             <div>
