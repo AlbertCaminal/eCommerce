@@ -4,19 +4,12 @@ import { api, HydrateClient } from "~/trpc/server";
 import { auth } from "~/server/auth";
 import Image from "next/image";
 import HeroImage from "./assets/images/Posando.png";
+import CarouselClient from "./_components/CarouselClient";
 
 export default async function Home() {
   const session = await auth();
 
   const products = await api.products.getAllProducts();
-
-  const carouselImages = [
-    "./assets/images/camiseta.jpg",
-    "./assets/images/camiseta.jpg",
-    "./assets/images/camiseta.jpg",
-    "./assets/images/camiseta.jpg",
-    "./assets/images/camiseta.jpg",
-  ];
 
   return (
     <HydrateClient>
@@ -152,6 +145,8 @@ export default async function Home() {
             </div>
           </section>
 
+          {/* Carousel Section */}
+          <CarouselClient />
 
           {/* Product Section */}
           {/* <section>
