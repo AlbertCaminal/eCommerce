@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import Link from "next/link";
 import { api, HydrateClient } from "~/trpc/server";
 import { auth } from "~/server/auth";
@@ -8,6 +9,14 @@ export default async function Home() {
   const session = await auth();
 
   const products = await api.products.getAllProducts();
+
+  const carouselImages = [
+    "./assets/images/camiseta.jpg",
+    "./assets/images/camiseta.jpg",
+    "./assets/images/camiseta.jpg",
+    "./assets/images/camiseta.jpg",
+    "./assets/images/camiseta.jpg",
+  ];
 
   return (
     <HydrateClient>
@@ -48,7 +57,7 @@ export default async function Home() {
                 <input
                   type="text"
                   placeholder="BUSCAR..."
-                  className="w-48 border border-gray-300 px-4 py-1 text-sm focus:outline-none"
+                  className="w-full border border-gray-300 px-4 py-1 text-sm transition-all duration-500 focus:outline-none sm:max-w-[4rem] md:max-w-[6.5rem] lg:max-w-[18rem]"
                 />
                 <button className="absolute right-2 top-1/2 -translate-y-1/2 transform text-gray-500">
                   🔍
@@ -85,7 +94,7 @@ export default async function Home() {
 
           {/* Secondary Navigation */}
           <div className="border-t border-gray-200 bg-gray-50 py-1">
-            <div className="container mx-auto flex justify-center gap-8 py-2 text-sm font-bold">
+            <div className="container mx-auto flex justify-center gap-5 py-2 text-sm font-bold">
               <Link href="/novedades" className="hover:underline">
                 NOVEDADES
               </Link>
@@ -118,22 +127,24 @@ export default async function Home() {
           {/* Hero Section */}
           <section className="relative mx-auto max-w-[2050px]">
             <Image
-              src={HeroImage} // Ruta desde la carpeta public
+              src={HeroImage}
               alt="Hero Background"
               layout="responsive"
-              width={2050} // Ancho real de la imagen
-              height={800} // Altura real de la imagen
-              priority // Para carga prioritaria
+              width={2050}
+              height={800}
+              priority
             />
             <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
               <div className="text-center text-white">
-                <h2 className="mb-4 text-4xl font-bold">Eleva Tu Estilo</h2>
-                <p className="mb-6 text-lg">
+                <h2 className="mb-4 text-2xl font-bold transition-all duration-500 sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl">
+                  Eleva Tu Estilo
+                </h2>
+                <p className="sm:text-md mb-6 text-base transition-all duration-500 md:text-xl lg:text-2xl xl:text-3xl">
                   Moda atemporal, opciones sostenibles
                 </p>
                 <Link
                   href="/shop"
-                  className="bg-white px-6 py-3 text-lg text-black hover:bg-gray-200"
+                  className="sm:tetx-md inline-block bg-white px-2 py-1 text-sm text-black transition-all duration-500 hover:bg-gray-200 sm:px-3 sm:py-2 md:px-4 md:py-3 md:text-lg lg:px-10 lg:py-5 lg:text-xl"
                 >
                   Compra Ahora
                 </Link>
@@ -141,14 +152,16 @@ export default async function Home() {
             </div>
           </section>
 
-          <section>
+
+          {/* Product Section */}
+          {/* <section>
             {products.map(({ name, imageUrl }, i) => (
               <div key={i}>
                 <div>{name}</div>
                 <img src={imageUrl}></img>
               </div>
             ))}
-          </section>
+          </section> */}
 
           {/* Promotional Section */}
           <section className="container mx-auto py-16">
