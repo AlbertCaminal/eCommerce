@@ -118,7 +118,7 @@ export default async function Home() {
 
         <section className="mt-6 px-6 lg:px-6">
           {/* Hero Section */}
-          <section className="relative mx-auto max-w-[2050px]">
+          <section className="relative mx-auto max-w-[2050px] mb-6">
             <Image
               src={HeroImage}
               alt="Hero Background"
