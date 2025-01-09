@@ -12,7 +12,6 @@ import Pantalon from "../assets/images/pantalon.jpg";
 import Posando from "../assets/images/Posando.png";
 import Zapatos from "../assets/images/zapatos.jpg";
 
-// Array con links independientes
 const originalItems = [
   { src: Camiseta, label: "CAMISETA", href: "/productos/camiseta" },
   { src: Cinturon, label: "CINTURÓN", href: "/productos/cinturon" },
@@ -57,36 +56,39 @@ export default function CarouselClient() {
   return (
     <div className="relative w-full overflow-hidden">
       <div
-        className={`flex gap-4 ${
+        className={`flex ${
           transitionEnabled ? "transition-transform duration-700 ease-in-out" : ""
         }`}
         style={{
-          // Si sigues con porcentaje, 4 imágenes “visibles” => 25% cada una:
+          // Mueve 25% por slide
           transform: `translateX(-${currentIndex * 25}%)`,
           transition: transitionEnabled ? undefined : "none",
         }}
         onTransitionEnd={handleTransitionEnd}
       >
         {extendedItems.map((item, i) => (
-          // Usamos tamaño fijo en px: 250 ancho, 300 alto
           <div
             key={i}
-            className="relative w-[153.5px] h-[300px] flex-shrink-0 overflow-hidden"
+            // OJO: Quitamos max-w para que sea 25% real en cualquier pantalla
+            className="relative w-1/4 aspect-[497/600] flex-shrink-0 overflow-hidden"
           >
-            <Link href={item.href}>
-              <div className="relative w-full h-full">
-                <Image
-                  src={item.src}
-                  alt={item.label}
-                  fill
-                  style={{ objectFit: "cover" }}
-                />
+            {/* Pequeño padding y borde para simular separación interna */}
+            <div className="w-full h-full p-1 border border-white box-border">
+              <Link href={item.href}>
+                <div className="relative w-full h-full">
+                  <Image
+                    src={item.src}
+                    alt={item.label}
+                    fill
+                    style={{ objectFit: "cover" }}
+                  />
+                </div>
+              </Link>
+              <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+                <h2 className="text-4xl font-bold text-white drop-shadow">
+                  {item.label}
+                </h2>
               </div>
-            </Link>
-            <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-              <h2 className="text-lg font-bold text-white drop-shadow">
-                {item.label}
-              </h2>
             </div>
           </div>
         ))}

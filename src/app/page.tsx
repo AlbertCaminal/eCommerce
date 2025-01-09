@@ -118,7 +118,7 @@ export default async function Home() {
 
         <section className="mt-6 px-6 lg:px-6">
           {/* Hero Section */}
-          <section className="relative mx-auto max-w-[2050px] mb-6">
+          <section className="relative mx-auto mb-6 max-w-[2050px]">
             <Image
               src={HeroImage}
               alt="Hero Background"
@@ -146,7 +146,9 @@ export default async function Home() {
           </section>
 
           {/* Carousel Section */}
-          <CarouselClient />
+          <section className="relative mx-auto mb-6 max-w-[2050px]">
+            <CarouselClient />
+          </section>
 
           {/* Product Section */}
           {/* <section>
