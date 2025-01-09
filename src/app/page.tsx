@@ -161,25 +161,106 @@ export default async function Home() {
           </section> */}
 
           {/* Promotional Section */}
-          <section className="container mx-auto py-16">
-            <div className="mb-12 text-center">
+          <section className="mx-auto max-w-[2050px] bg-gray-100 py-24">
+            <div className="container mx-auto text-center">
               <h2 className="text-3xl font-bold">
                 El arte de tener menos y mejores opciones
               </h2>
-              <p className="mt-4 text-gray-600">
+              <p className="mx-auto mt-10 max-w-xl text-gray-600">
                 Optar por la calidad frente a la cantidad significa optar por lo
-                atemporal, Artículos duraderos y fabricados de forma
-                responsable. Nuestras ofertas orgánicas son diseñado con
+                atemporal, artículos duraderos y fabricados de forma
+                responsable. Nuestras ofertas orgánicas son diseñadas con
                 integridad y cuidado.
               </p>
             </div>
           </section>
 
-          {/* Product Highlights */}
-          <section className="container mx-auto py-16">
-            <h2 className="mb-8 text-center text-3xl font-bold">
-              Que llevar ahora
-            </h2>
+          {/* Season Trends */}
+          <section id="tendencias" className="py-24">
+            <div className="container mx-auto text-center">
+              <h2 className="mb-8 text-2xl font-bold">
+                Tendencias de Temporada
+              </h2>
+              <p className="mb-16 text-gray-600">
+                Descubre las prendas y accesorios más populares de esta
+                temporada.
+              </p>
+
+              <div className="flex flex-wrap justify-center gap-16">
+                {/* Tarjeta 1 */}
+                <div className="w-80 overflow-hidden rounded-lg bg-white shadow-md">
+                  <Image
+                    src={HeroImage}
+                    alt="Abrigos Oversize"
+                    width={300}
+                    height={200}
+                    className="w-full"
+                  />
+                  <div className="p-4">
+                    <h3 className="mb-2 text-lg font-semibold">
+                      Abrigos Oversize
+                    </h3>
+                    <p className="text-sm text-gray-500">
+                      Perfectos para mantenerte abrigado con estilo.
+                    </p>
+                    <a
+                      href="#"
+                      className="mt-4 inline-block rounded bg-black px-4 py-2 text-sm text-white hover:bg-gray-800"
+                    >
+                      Ver más
+                    </a>
+                  </div>
+                </div>
+
+                {/* Tarjeta 2 */}
+                <div className="w-80 overflow-hidden rounded-lg bg-white shadow-md">
+                  <Image
+                    src={HeroImage}
+                    alt="Pantalones Cargo"
+                    width={300}
+                    height={200}
+                    className="w-full"
+                  />
+                  <div className="p-4">
+                    <h3 className="mb-2 text-lg font-semibold">
+                      Pantalones Cargo
+                    </h3>
+                    <p className="text-sm text-gray-500">
+                      La combinación perfecta de comodidad y moda.
+                    </p>
+                    <a
+                      href="#"
+                      className="mt-4 inline-block rounded bg-black px-4 py-2 text-sm text-white hover:bg-gray-800"
+                    >
+                      Ver más
+                    </a>
+                  </div>
+                </div>
+
+                {/* Tarjeta 3 */}
+                <div className="w-80 overflow-hidden rounded-lg bg-white shadow-md">
+                  <Image
+                    src={HeroImage}
+                    alt="Botas Chunky"
+                    width={300}
+                    height={200}
+                    className="w-full"
+                  />
+                  <div className="p-4">
+                    <h3 className="mb-2 text-lg font-semibold">Botas Chunky</h3>
+                    <p className="text-sm text-gray-500">
+                      Dale un toque atrevido y sofisticado a tu outfit.
+                    </p>
+                    <a
+                      href="#"
+                      className="mt-4 inline-block rounded bg-black px-4 py-2 text-sm text-white hover:bg-gray-800"
+                    >
+                      Ver más
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
           </section>
         </section>
 
