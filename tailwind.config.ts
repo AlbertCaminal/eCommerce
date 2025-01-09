@@ -8,6 +8,9 @@ export default {
       fontFamily: {
         sans: ["var(--font-geist-sans)", ...fontFamily.sans],
       },
+      boxShadow: {
+        'inner-lg': 'inset 0 2px 6px rgba(0, 0, 0, 0.3)',
+      },
     },
   },
   plugins: [],

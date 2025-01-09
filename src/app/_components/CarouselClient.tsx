@@ -85,7 +85,7 @@ export default function CarouselClient() {
                 </div>
               </Link>
               <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                <h2 className="text-4xl font-bold text-white drop-shadow">
+                <h2 className="text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold text-white drop-shadow">
                   {item.label}
                 </h2>
               </div>
