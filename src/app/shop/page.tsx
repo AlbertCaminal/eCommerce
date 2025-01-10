@@ -82,18 +82,24 @@ export default async function Shop() {
         <Header session={session} />
 
         {/* Contenido de la tienda */}
-        <section className="mt-6 px-6 lg:px-6">
-          <div className="mx-auto max-w-[2050px] flex flex-col lg:flex-row">
+        {/* Añadimos flex-1 para que esta sección ocupe el espacio disponible */}
+        <section className="flex-1 mt-6 px-6 lg:px-6 xl:px-6">
+          <div className="mx-auto max-w-[2000px] flex flex-col md:flex-row">
             {/* Barra Lateral */}
-            <aside className="hidden lg:block lg:w-1/4 lg:pr-6 mb-6 lg:mb-0">
+            <aside className="hidden md:block lg:w-1/4 lg:pr-6 mb-6 lg:mb-0">
               {Object.entries(sidebarData).map(([title, links]) => (
                 <SidebarSection key={title} title={title} links={links} />
               ))}
             </aside>
 
             {/* Lista de Productos */}
-            <div className="w-full lg:w-3/4">
-              <h1 className="text-2xl font-bold mb-4">Tienda</h1>
+            <div className="w-full lg:w-3/4 px-2">
+              {/* Eliminar el encabezado "Tienda" */}
+              {/* <h1 className="text-2xl font-bold mb-4">Tienda</h1> */}
+
+              {/* Añadir texto con la cantidad de productos */}
+              <p className="text-sm font-medium mb-2 px-2">{products.length} PRODUCTOS</p>
+
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {products.map((product) => (
                   <div key={product.id} className="border p-4 rounded">

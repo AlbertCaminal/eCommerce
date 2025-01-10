@@ -61,7 +61,7 @@ export default function CarouselClient() {
         }`}
         style={{
           // Mueve 25% por slide
-          transform: `translateX(-${currentIndex * 25}%)`,
+          transform: `translateX(-${currentIndex * 20}%)`,
           transition: transitionEnabled ? undefined : "none",
         }}
         onTransitionEnd={handleTransitionEnd}
@@ -70,7 +70,7 @@ export default function CarouselClient() {
           <div
             key={i}
             // OJO: Quitamos max-w para que sea 25% real en cualquier pantalla
-            className="relative w-1/4 aspect-[497/600] flex-shrink-0 overflow-hidden"
+            className="relative w-1/5 aspect-[497/650] flex-shrink-0 overflow-hidden"
           >
             {/* Pequeño padding y borde para simular separación interna */}
             <div className="w-full h-full p-1 border border-white box-border">
