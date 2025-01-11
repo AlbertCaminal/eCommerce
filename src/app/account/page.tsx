@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../_components/Header';
 import Footer from '../_components/Footer';
+import Link from 'next/link';
 
 const AccountPage: React.FC = () => {
   return (
@@ -46,7 +47,7 @@ const AccountPage: React.FC = () => {
             </nav>
             <div className="mt-4 md:mt-6 text-gray-700 text-sm md:text-base">
               <p>albertolome1@gmail.com</p>
-              <a href="/api/auth/signout" className="text-red-500 hover:underline font-medium">Desconexión</a>
+              <Link href="/api/auth/signout" className="text-red-500 hover:underline font-medium">Desconexión</Link>
             </div>
           </aside>
 
