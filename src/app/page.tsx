@@ -17,7 +17,8 @@ export default async function Home() {
         {/* Header */}
         <Header session={session} />
 
-        <section className="mt-6 px-6 lg:px-6">
+        {/* Sección de contenido principal con flex-1 */}
+        <section className="flex-1 mt-6 px-6 lg:px-6">
           {/* Hero Section */}
           <section className="relative mx-auto mb-6 max-w-[2050px]">
             <Image

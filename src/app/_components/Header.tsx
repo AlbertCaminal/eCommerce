@@ -13,18 +13,18 @@ const Header: React.FC<HeaderProps> = ({ session }) => {
   return (
     <header className="sticky top-0 z-50 bg-white shadow-md">
       {/* Top Promo Bar */}
-      <div className="bg-gray-100 py-1 text-center text-sm text-red-600">
+      <div className="bg-gray-100 py-1 text-center text-sm text-red-600 xs:text-xs xxs:text-xxs xxxs:text-xxxs">
         <Link href="/ofertas" className="hover:underline">
           OFERTAS OTOÑO-INVIERNO | HASTA UN 50% DE DESCUENTO EN ARTÍCULOS SELECCIONADOS
         </Link>
       </div>
 
       {/* Main Header */}
-      <div className="relative mx-auto max-w-[2050px] px-6 py-5">
+      <div className="relative mx-auto max-w-[2050px] px-3 xxxs:px-2 xs:px-4 sm:px-6 py-4">
         {/* Contenedor Flex Principal */}
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-between">
           {/* Elemento Izquierdo: Dropdown y Navegación para Pantallas Grandes */}
-          <div className="absolute left-0 flex items-center px-6">
+          <div className="flex items-center">
             {/* Dropdown Menu para dispositivos móviles */}
             <div className="relative flex items-center md:hidden">
               {/* Checkbox Hack */}
@@ -40,7 +40,7 @@ const Header: React.FC<HeaderProps> = ({ session }) => {
               </label>
 
               {/* Dropdown Menu */}
-              <div className="fixed left-0 top-0 z-40 h-screen w-96 translate-x-[-105%] transform border-r border-gray-100 bg-gray-50 shadow-lg transition-transform duration-300 peer-checked:translate-x-0">
+              <div className="fixed left-0 top-0 z-40 h-screen w-72 xs:w-80 bg-gray-50 shadow-lg transform transition-transform duration-300 peer-checked:translate-x-0 translate-x-[-100%]">
                 {/* Contenido del menú */}
                 <div className="relative h-full overflow-y-auto">
                   {/* Botón de cierre del menú (✖️) */}
@@ -59,9 +59,9 @@ const Header: React.FC<HeaderProps> = ({ session }) => {
                   ></label>
 
                   {/* Contenido real del menú */}
-                  <div className="relative z-10 py-2">
+                  <div className="relative z-10 p-4">
                     {/* Navegación Principal */}
-                    <nav className="flex justify-center space-x-4 border-b border-gray-200 py-2">
+                    <nav className="flex flex-col space-y-2 border-b border-gray-200 pb-4">
                       <Link href="/" className="py-1 text-sm font-bold hover:text-gray-600">
                         HOMBRES
                       </Link>
@@ -74,22 +74,22 @@ const Header: React.FC<HeaderProps> = ({ session }) => {
                     </nav>
 
                     {/* Barra de Búsqueda */}
-                    <div className="py-0.5">
+                    <div className="mt-4">
                       <div className="relative">
                         <input
                           type="text"
                           placeholder="BUSCAR..."
                           className="w-full border border-gray-200 px-4 py-2 text-sm focus:outline-none"
                         />
-                        <button className="absolute right-2 top-1/2 -translate-y-1/2 transform text-gray-500">
+                        <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500">
                           🔍
                         </button>
                       </div>
                     </div>
 
                     {/* Navegación Secundaria */}
-                    <div>
-                      <div className="flex flex-col space-y-0.5">
+                    <div className="mt-4">
+                      <div className="flex flex-col space-y-2">
                         {[
                           { href: "/novedades", label: "NOVEDADES" },
                           { href: "/ropa", label: "ROPA" },
@@ -116,51 +116,53 @@ const Header: React.FC<HeaderProps> = ({ session }) => {
             </div>
 
             {/* Navegación para pantallas más grandes */}
-            <nav className="hidden items-center justify-start gap-8 md:flex">
-              <Link href="/" className="font-bold text-black">
+            <nav className="hidden md:flex items-center gap-6">
+              <Link href="/" className="font-bold text-black text-sm xs:text-xs xxxs:text-xxxs lg:text-sm">
                 HOMBRES
               </Link>
-              <Link href="/mujeres" className="hover:text-gray-600">
+              <Link href="/mujeres" className="text-sm hover:text-gray-600 xs:text-xs xxxs:text-xxxs lg:text-sm">
                 MUJERES
               </Link>
-              <Link href="/ninos" className="hover:text-gray-600">
+              <Link href="/ninos" className="text-sm hover:text-gray-600 xs:text-xs xxxs:text-xxxs lg:text-sm">
                 NIÑOS
               </Link>
             </nav>
           </div>
 
-          {/* Logo (centro) */}
-          <h1 className="text-center text-3xl font-bold">
-            <Link href="/">LOGO</Link>
-          </h1>
+          {/* Logo (centrado) */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 z-10">
+            <h1 className="text-center text-xl xs:text-xl xxxs:text-xl font-bold md:text-xxl lg:text-xxl xl:text-3xl xxxl:text-3xl">
+              <Link href="/">LOGO</Link>
+            </h1>
+          </div>
 
           {/* Elemento Derecho: Search y Iconos */}
-          <div className="absolute right-0 flex items-center gap-6 px-6">
+          <div className="flex items-center gap-4">
             {/* Search Bar para pantallas más grandes */}
             <div className="relative hidden md:block">
               <input
                 type="text"
                 placeholder="BUSCAR..."
-                className="w-full border border-gray-300 px-4 py-1 text-sm transition-all duration-500 focus:outline-none sm:max-w-[4rem] md:max-w-[6.5rem] lg:max-w-[18rem]"
+                className="w-40 xs:w-32 xxxs:w-24 border border-gray-300 px-3 py-1 text-xs focus:outline-none transition-all duration-500 lg:w-64 xl:w-80 xxxl:w-96"
               />
-              <button className="absolute right-2 top-1/2 -translate-y-1/2 transform text-gray-500">
+              <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500">
                 🔍
               </button>
             </div>
-            <div className="flex gap-4">
+            <div className="flex items-center gap-3">
               {session ? (
-                <Link href="/profile" className="text-gray-600 hover:text-black">
+                <Link href="/profile" className="text-gray-600 hover:text-black text-lg xs:text-xs xxxs:text-xxxs lg:text-base xl:text-lg xxxl:text-xl">
                   👤
                 </Link>
               ) : (
-                <Link href="/api/auth/signin" className="text-gray-600 hover:text-black">
+                <Link href="/api/auth/signin" className="text-gray-600 hover:text-black text-lg xs:text-xs xxxs:text-xxxs lg:text-base xl:text-lg xxxl:text-xl">
                   👤
                 </Link>
               )}
-              <Link href="/wishlist" className="text-gray-600 hover:text-black">
+              <Link href="/wishlist" className="text-gray-600 hover:text-black text-lg xs:text-xs xxxs:text-xxxs lg:text-base xl:text-lg xxxl:text-xl">
                 ❤️
               </Link>
-              <Link href="/cart" className="text-gray-600 hover:text-black">
+              <Link href="/cart" className="text-gray-600 hover:text-black text-lg xs:text-xs xxxs:text-xxxs lg:text-base xl:text-lg xxxl:text-xl">
                 🛒
               </Link>
             </div>
@@ -169,12 +171,12 @@ const Header: React.FC<HeaderProps> = ({ session }) => {
       </div>
 
       {/* Secondary Navigation para pantallas más grandes */}
-      <div className="hidden border-t border-gray-200 bg-gray-50 py-1 md:block">
-        <div className="container mx-auto flex justify-center gap-5 py-2 text-sm font-bold">
-          <Link href="/shop" className="hover:underline">
+      <div className="hidden md:block border-t border-gray-200 bg-gray-50 py-1">
+        <div className="container mx-auto flex justify-center gap-5 py-2 text-sm font-bold xs:text-xxs xxxs:text-xxxs lg:text-base xl:text-lg xxxl:text-xl">
+          <Link href="/novedades" className="hover:underline">
             NOVEDADES
           </Link>
-          <Link href="/shop" className="hover:underline">
+          <Link href="/ropa" className="hover:underline">
             ROPA
           </Link>
           <Link href="/moda-vaquera" className="hover:underline">

@@ -46,7 +46,7 @@ const AccountPage: React.FC = () => {
             </nav>
             <div className="mt-4 md:mt-6 text-gray-700 text-sm md:text-base">
               <p>albertolome1@gmail.com</p>
-              <a href="#" className="text-red-500 hover:underline font-medium">Desconexión</a>
+              <a href="/api/auth/signout" className="text-red-500 hover:underline font-medium">Desconexión</a>
             </div>
           </aside>
 
