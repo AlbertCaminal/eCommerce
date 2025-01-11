@@ -29,6 +29,34 @@ const originalLength = originalItems.length;
 export default function CarouselClient() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [transitionEnabled, setTransitionEnabled] = useState(true);
+  
+  // Aquí guardamos cuántos items se deben mostrar según el tamaño de pantalla
+  const [itemsToShow, setItemsToShow] = useState(5);
+
+  // Detectar tamaño de pantalla para setItemsToShow (5, 4 o 3)
+  useEffect(() => {
+    function handleResize() {
+      // Ejemplo de breakpoints:
+      // < 640px (sm) => 3
+      // < 1024px (md) => 4
+      // >= 1024px => 5
+      if (window.innerWidth < 1024) {
+        setItemsToShow(3);
+      } else if (window.innerWidth < 1660) {
+        setItemsToShow(4);
+      } else {
+        setItemsToShow(5);
+      }
+    }
+
+    // Ejecutar al montar y cada vez que cambie el size
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Para que se ejecute al cargar
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   // Avanza 1 item cada 3 segundos
   useEffect(() => {
@@ -49,9 +77,14 @@ export default function CarouselClient() {
   // Reencender la transición tras el salto
   useEffect(() => {
     if (!transitionEnabled) {
+      // Forzamos un frame sin transición y después la encendemos de nuevo
       requestAnimationFrame(() => setTransitionEnabled(true));
     }
   }, [transitionEnabled]);
+
+  // Porcentaje a desplazar en cada "click" (o paso en el interval).
+  // Si mostramos 5 items => cada item es 20%, si 4 => 25%, si 3 => ~33.333%.
+  const translatePercentage = 100 / itemsToShow;
 
   return (
     <div className="relative w-full overflow-hidden">
@@ -60,8 +93,7 @@ export default function CarouselClient() {
           transitionEnabled ? "transition-transform duration-700 ease-in-out" : ""
         }`}
         style={{
-          // Mueve 25% por slide
-          transform: `translateX(-${currentIndex * 20}%)`,
+          transform: `translateX(-${currentIndex * translatePercentage}%)`,
           transition: transitionEnabled ? undefined : "none",
         }}
         onTransitionEnd={handleTransitionEnd}
@@ -69,10 +101,13 @@ export default function CarouselClient() {
         {extendedItems.map((item, i) => (
           <div
             key={i}
-            // OJO: Quitamos max-w para que sea 25% real en cualquier pantalla
-            className="relative w-1/5 aspect-[497/650] flex-shrink-0 overflow-hidden"
+            // Ajustamos el ancho dinámicamente para que quepan 'itemsToShow' por vista
+            style={{
+              width: `${100 / itemsToShow}%`,
+              aspectRatio: "497 / 650", // Mantiene la proporción de la imagen
+            }}
+            className="relative flex-shrink-0 overflow-hidden"
           >
-            {/* Pequeño padding y borde para simular separación interna */}
             <div className="w-full h-full p-1 border border-white box-border">
               <Link href={item.href}>
                 <div className="relative w-full h-full">

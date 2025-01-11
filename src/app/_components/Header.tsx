@@ -141,7 +141,7 @@ const Header: React.FC<HeaderProps> = ({ session }) => {
               <input
                 type="text"
                 placeholder="BUSCAR..."
-                className="w-full rounded border border-gray-300 px-4 py-1 text-sm transition-all duration-500 focus:outline-none sm:max-w-[4rem] md:max-w-[6.5rem] lg:max-w-[18rem]"
+                className="w-full border border-gray-300 px-4 py-1 text-sm transition-all duration-500 focus:outline-none sm:max-w-[4rem] md:max-w-[6.5rem] lg:max-w-[18rem]"
               />
               <button className="absolute right-2 top-1/2 -translate-y-1/2 transform text-gray-500">
                 🔍
