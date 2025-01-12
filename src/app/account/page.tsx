@@ -13,7 +13,7 @@ const AccountPage: React.FC = () => {
     try {
       // Llamamos a la ruta /api/logout (o la que hayas configurado),
       // usando el método POST
-      const res = await fetch('/api/logout', { method: 'POST' });
+      const res = await fetch('/api/auth/logout', { method: 'POST' });
 
       if (res.ok) {
         // Redirige a donde tú quieras, por ejemplo la página principal
