@@ -178,12 +178,13 @@ const Header: React.FC<HeaderProps> = ({ session }) => {
                 </Link>
               ) : (
                 <Link
-                  href="/api/auth/signin"
+                  href="/api/auth/signin?callbackUrl=/account"
                   className="text-lg text-gray-600 hover:text-black xxxs:text-xxxs xs:text-xs lg:text-base xl:text-lg xxxl:text-xl"
                 >
                   👤
                 </Link>
               )}
+
               <Link
                 href="/wishlist"
                 className="text-lg text-gray-600 hover:text-black xxxs:text-xxxs xs:text-xs lg:text-base xl:text-lg xxxl:text-xl"
