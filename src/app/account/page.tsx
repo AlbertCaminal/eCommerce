@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import Header from "../_components/Header";
-import Footer from "../_components/Footer";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
+import Header from "../_components/Header";
+import Footer from "../_components/Footer";
 
 const AccountPage: React.FC = () => {
   return (
@@ -56,13 +56,11 @@ const AccountPage: React.FC = () => {
 
             <div className="mt-4 md:mt-6 text-gray-700 text-sm md:text-base">
               <p>albertolome1@gmail.com</p>
-              {/* Aquí reemplazamos el Link para que llame a signOut() */}
               <Link
                 href="#"
                 onClick={(e) => {
                   e.preventDefault();
-                  // Cierra la sesión en el lado cliente
-                  void signOut();
+                  void signOut(); // Cierra la sesión en el lado cliente
                 }}
                 className="text-red-500 hover:underline font-medium"
               >
