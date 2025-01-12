@@ -1,4 +1,5 @@
-"use client";
+"use client";                // 1) Marcar Client Component
+export const dynamic = "force-dynamic"; // 2) Evitar SSG/SSR
 
 import React from "react";
 import { useSession, signOut } from "next-auth/react";
