@@ -1,31 +1,8 @@
-"use client";
-
 import React from 'react';
 import Header from '../_components/Header';
 import Footer from '../_components/Footer';
-import Link from 'next/link';
 
 const AccountPage: React.FC = () => {
-
-  const handleLogout = async (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault(); // Evita el comportamiento por defecto de <a>
-
-    try {
-      // Llamamos a la ruta /api/logout (o la que hayas configurado),
-      // usando el método POST
-      const res = await fetch('/api/auth/logout', { method: 'POST' });
-
-      if (res.ok) {
-        // Redirige a donde tú quieras, por ejemplo la página principal
-        window.location.href = '/';
-      } else {
-        console.error('Error cerrando sesión:', await res.json());
-      }
-    } catch (error) {
-      console.error('Error cerrando sesión:', error);
-    }
-  };
-
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header */}
@@ -34,7 +11,6 @@ const AccountPage: React.FC = () => {
       {/* Main Content */}
       <main className="flex flex-1 bg-gray-50">
         <div className="flex flex-col md:flex-row w-full max-w-7xl mx-auto">
-
           {/* Sidebar */}
           <aside className="w-full md:w-1/4 bg-white p-3 md:p-6 border-b md:border-b-0 md:border-r border-gray-200">
             <div className="bg-gray-100 p-3 md:p-4 rounded shadow-sm">
@@ -72,24 +48,26 @@ const AccountPage: React.FC = () => {
               </button>
             </nav>
 
+            {/* Formulario para el Logout */}
             <div className="mt-4 md:mt-6 text-gray-700 text-sm md:text-base">
               <p>albertolome1@gmail.com</p>
-              {/* Aquí modificamos el link para que use handleLogout */}
-              <Link
-                href="#"
-                onClick={handleLogout}
-                className="text-red-500 hover:underline font-medium"
-              >
-                Desconexión
-              </Link>
+              <form action="/api/auth/signout" method="POST">
+                {/* callbackUrl es opcional si quieres redirigir a otra página */}
+                <input type="hidden" name="callbackUrl" value="/" />
+                
+                <button
+                  type="submit"
+                  className="text-red-500 hover:underline font-medium"
+                >
+                  Desconexión
+                </button>
+              </form>
             </div>
           </aside>
 
           {/* Content */}
           <section className="w-full md:w-3/4 bg-gray-100 p-3 md:p-8">
-            <h1 className="text-lg md:text-2xl font-bold">
-              Bienvenido, albertolome1@gmail.com
-            </h1>
+            <h1 className="text-lg md:text-2xl font-bold">Bienvenido, albertolome1@gmail.com</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 md:gap-6 mt-4 md:mt-6">
               <div className="bg-white p-3 md:p-4 text-center rounded shadow-sm">
                 <p className="text-gray-700 font-medium text-sm md:text-base">
@@ -105,6 +83,49 @@ const AccountPage: React.FC = () => {
                 <p className="text-gray-700 font-medium text-sm md:text-base">
                   DISFRUTA DE UN 10 % DE DTO. EN TU 1.ª COMPRA
                 </p>
+              </div>
+            </div>
+
+            <h2 className="mt-4 md:mt-8 text-base md:text-xl font-bold">Visto Recientemente</h2>
+            <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 md:gap-4 mt-4">
+              <div className="text-center bg-white p-3 md:p-4 rounded shadow-sm">
+                <img src="/images/item1.jpg" alt="Pantalones Cargo" className="rounded mb-2" />
+                <p className="text-gray-700 font-medium text-sm md:text-base">
+                  Pantalones Cargo Cortes
+                </p>
+                <p className="text-gray-600 text-sm md:text-base">49.99 €</p>
+              </div>
+              <div className="text-center bg-white p-3 md:p-4 rounded shadow-sm">
+                <img src="/images/item2.jpg" alt="Jeans" className="rounded mb-2" />
+                <p className="text-gray-700 font-medium text-sm md:text-base">
+                  JIGLENN JJORGIGINAL SQ 223
+                </p>
+                <p className="text-gray-600 text-sm md:text-base">29.99 €</p>
+              </div>
+              <div className="text-center bg-white p-3 md:p-4 rounded shadow-sm">
+                <img src="/images/item3.jpg" alt="Jeans" className="rounded mb-2" />
+                <p className="text-gray-700 font-medium text-sm md:text-base">
+                  JIGLENN JJORGIGINAL SQ 270
+                </p>
+                <p className="text-gray-600 text-sm md:text-base">29.99 €</p>
+              </div>
+              <div className="text-center bg-white p-3 md:p-4 rounded shadow-sm">
+                <img src="/images/item4.jpg" alt="Jeans" className="rounded mb-2" />
+                <p className="text-gray-700 font-medium text-sm md:text-base">
+                  JIGLENN JJORGIGINAL SQ 349
+                </p>
+                <p className="text-gray-600 text-sm md:text-base">29.99 €</p>
+              </div>
+              <div className="text-center bg-white p-3 md:p-4 rounded shadow-sm">
+                <img
+                  src="/images/item5.jpg"
+                  alt="Pantalones Cargo Junior"
+                  className="rounded mb-2"
+                />
+                <p className="text-gray-700 font-medium text-sm md:text-base">
+                  Pantalones Cargo Junior
+                </p>
+                <p className="text-gray-600 text-sm md:text-base">39.99 €</p>
               </div>
             </div>
           </section>
