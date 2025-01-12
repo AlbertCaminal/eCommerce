@@ -1,23 +1,37 @@
-"use client";                // 1) Marcar Client Component
-export const dynamic = "force-dynamic"; // 2) Evitar SSG/SSR
+"use client";
 
 import React from "react";
-import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
+import { signOut } from "next-auth/react";
 import Header from "../_components/Header";
 import Footer from "../_components/Footer";
 
 const AccountPage: React.FC = () => {
-  const { data: session } = useSession();
+  const handleDeleteUser = async () => {
+    try {
+      // 1. Eliminar el usuario en la base de datos (usando el endpoint que creamos)
+      const response = await fetch("/api/delete-user", {
+        method: "DELETE",
+      });
 
-  // Extrae el correo del usuario si existe; si no, muestra un texto por defecto
-  const userEmail = session?.user?.email ?? "Usuario sin email";
+      if (!response.ok) {
+        // Maneja el error, p. ej. mostrar un mensaje
+        console.error("Error al eliminar usuario");
+        return;
+      }
+
+      // 2. Después de borrar en la BD, cerramos la sesión
+      //    y redirigimos a la página principal (o donde quieras).
+      await signOut({ callbackUrl: "/" });
+    } catch (error) {
+      console.error("Error en handleDeleteUser:", error);
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header */}
-      {/* Nota: si tu Header necesita la sesión, pásale session como prop si deseas */}
-      <Header session={session} />
+      <Header session={null} />
 
       {/* Main Content */}
       <main className="flex flex-1 bg-gray-50">
@@ -62,10 +76,9 @@ const AccountPage: React.FC = () => {
             </nav>
 
             <div className="mt-4 md:mt-6 text-gray-700 text-sm md:text-base">
-              {/* Muestra el email del usuario conectado */}
-              <p>{userEmail}</p>
+              <p>albertolome1@gmail.com</p>
 
-              {/* Botón de logout */}
+              {/* Botón de Desconexión normal */}
               <Link
                 href="#"
                 onClick={(e) => {
@@ -76,16 +89,22 @@ const AccountPage: React.FC = () => {
               >
                 Desconexión
               </Link>
+
+              {/* Botón para Eliminar usuario y luego cerrar sesión */}
+              <button
+                onClick={handleDeleteUser}
+                className="mt-4 w-full bg-red-500 text-white py-2 rounded hover:bg-red-600 transition text-sm md:text-base"
+              >
+                Eliminar cuenta
+              </button>
             </div>
           </aside>
 
           {/* Content */}
           <section className="w-full md:w-3/4 bg-gray-100 p-3 md:p-8">
-            {/* También aquí cambiamos "albertolome1@gmail.com" por userEmail */}
             <h1 className="text-lg md:text-2xl font-bold">
-              Bienvenido, {userEmail}
+              Bienvenido, albertolome1@gmail.com
             </h1>
-
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 md:gap-6 mt-4 md:mt-6">
               <div className="bg-white p-3 md:p-4 text-center rounded shadow-sm">
                 <p className="text-gray-700 font-medium text-sm md:text-base">
