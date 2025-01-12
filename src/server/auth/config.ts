@@ -1,7 +1,7 @@
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { type DefaultSession, type NextAuthConfig } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { env } from "~/env"; // Ajusta si tu env se importa de otro sitio
+import { env } from "~/env";
 
 import { db } from "~/server/db";
 import {
@@ -12,8 +12,7 @@ import {
 } from "~/server/db/schema";
 
 /**
- * Añade tipado extra para "session.user.id".
- * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
+ * Añade tipado para "session.user.id".
  */
 declare module "next-auth" {
   interface Session extends DefaultSession {
@@ -24,7 +23,7 @@ declare module "next-auth" {
 }
 
 /**
- * Configuración principal de NextAuth
+ * Configuración principal de NextAuth.
  */
 export const authConfig = {
   providers: [
