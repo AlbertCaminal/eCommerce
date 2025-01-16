@@ -158,7 +158,7 @@ const AccountPage: React.FC = () => {
           {/* Main Content */}
           <section className="w-full md:w-3/5 bg-white p-6 rounded-lg shadow-md border border-gray-200">
             <h1 className="text-2xl font-bold text-gray-800 mb-6">
-              Bienvenido, {session?.user?.email ?? "Usuario"}
+              Bienvenido, {session?.user?.name ?? "Usuario"}
             </h1>
             <div>{renderSectionContent()}</div>
           </section>
