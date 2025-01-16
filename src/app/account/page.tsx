@@ -2,26 +2,24 @@
 
 import React from "react";
 import Link from "next/link";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Header from "../_components/Header";
 import Footer from "../_components/Footer";
 
 const AccountPage: React.FC = () => {
+  const { data: session } = useSession(); // Recupera la sesión del usuario
+
   const handleDeleteUser = async () => {
     try {
-      // 1. Eliminar el usuario en la base de datos (usando el endpoint que creamos)
       const response = await fetch("/api/delete-user", {
         method: "DELETE",
       });
 
       if (!response.ok) {
-        // Maneja el error, p. ej. mostrar un mensaje
         console.error("Error al eliminar usuario");
         return;
       }
 
-      // 2. Después de borrar en la BD, cerramos la sesión
-      //    y redirigimos a la página principal (o donde quieras).
       await signOut({ callbackUrl: "/" });
     } catch (error) {
       console.error("Error en handleDeleteUser:", error);
@@ -31,7 +29,7 @@ const AccountPage: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header */}
-      <Header session={null} />
+      <Header session={session} />
 
       {/* Main Content */}
       <main className="flex flex-1 bg-gray-50">
@@ -76,7 +74,7 @@ const AccountPage: React.FC = () => {
             </nav>
 
             <div className="mt-4 md:mt-6 text-gray-700 text-sm md:text-base">
-              <p>albertolome1@gmail.com</p>
+              <p>{session?.user?.email ?? "Correo no disponible"}</p>
 
               {/* Botón de Desconexión normal */}
               <Link
@@ -98,92 +96,7 @@ const AccountPage: React.FC = () => {
                 Eliminar cuenta
               </button>
             </div>
-          </aside>
-
-          {/* Content */}
-          <section className="w-full md:w-3/4 bg-gray-100 p-3 md:p-8">
-            <h1 className="text-lg md:text-2xl font-bold">
-              Bienvenido, albertolome1@gmail.com
-            </h1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 md:gap-6 mt-4 md:mt-6">
-              <div className="bg-white p-3 md:p-4 text-center rounded shadow-sm">
-                <p className="text-gray-700 font-medium text-sm md:text-base">
-                  OFERTAS Y DESCUENTOS ESPECIALES
-                </p>
-              </div>
-              <div className="bg-white p-3 md:p-4 text-center rounded shadow-sm">
-                <p className="text-gray-700 font-medium text-sm md:text-base">
-                  COMPRA Y OBTÉN PUNTOS CON CADA COMPRA
-                </p>
-              </div>
-              <div className="bg-white p-3 md:p-4 text-center rounded shadow-sm">
-                <p className="text-gray-700 font-medium text-sm md:text-base">
-                  DISFRUTA DE UN 10 % DE DTO. EN TU 1.ª COMPRA
-                </p>
-              </div>
-            </div>
-
-            <h2 className="mt-4 md:mt-8 text-base md:text-xl font-bold">
-              Visto Recientemente
-            </h2>
-            <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 md:gap-4 mt-4">
-              <div className="text-center bg-white p-3 md:p-4 rounded shadow-sm">
-                <img
-                  src="/images/item1.jpg"
-                  alt="Pantalones Cargo"
-                  className="rounded mb-2"
-                />
-                <p className="text-gray-700 font-medium text-sm md:text-base">
-                  Pantalones Cargo Cortes
-                </p>
-                <p className="text-gray-600 text-sm md:text-base">49.99 €</p>
-              </div>
-              <div className="text-center bg-white p-3 md:p-4 rounded shadow-sm">
-                <img
-                  src="/images/item2.jpg"
-                  alt="Jeans"
-                  className="rounded mb-2"
-                />
-                <p className="text-gray-700 font-medium text-sm md:text-base">
-                  JIGLENN JJORGIGINAL SQ 223
-                </p>
-                <p className="text-gray-600 text-sm md:text-base">29.99 €</p>
-              </div>
-              <div className="text-center bg-white p-3 md:p-4 rounded shadow-sm">
-                <img
-                  src="/images/item3.jpg"
-                  alt="Jeans"
-                  className="rounded mb-2"
-                />
-                <p className="text-gray-700 font-medium text-sm md:text-base">
-                  JIGLENN JJORGIGINAL SQ 270
-                </p>
-                <p className="text-gray-600 text-sm md:text-base">29.99 €</p>
-              </div>
-              <div className="text-center bg-white p-3 md:p-4 rounded shadow-sm">
-                <img
-                  src="/images/item4.jpg"
-                  alt="Jeans"
-                  className="rounded mb-2"
-                />
-                <p className="text-gray-700 font-medium text-sm md:text-base">
-                  JIGLENN JJORGIGINAL SQ 349
-                </p>
-                <p className="text-gray-600 text-sm md:text-base">29.99 €</p>
-              </div>
-              <div className="text-center bg-white p-3 md:p-4 rounded shadow-sm">
-                <img
-                  src="/images/item5.jpg"
-                  alt="Pantalones Cargo Junior"
-                  className="rounded mb-2"
-                />
-                <p className="text-gray-700 font-medium text-sm md:text-base">
-                  Pantalones Cargo Junior
-                </p>
-                <p className="text-gray-600 text-sm md:text-base">39.99 €</p>
-              </div>
-            </div>
-          </section>
+          </aside>      
         </div>
       </main>
 
