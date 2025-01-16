@@ -84,44 +84,64 @@ export default async function Shop() {
         {/* Contenido de la tienda */}
         {/* Añadimos flex-1 para que esta sección ocupe el espacio disponible */}
         <section className="flex-1 mt-6 px-6 lg:px-6 xl:px-6">
-          <div className="mx-auto max-w-[2000px] flex flex-col md:flex-row">
-            {/* Barra Lateral */}
-            <aside className="hidden md:block lg:w-1/4 lg:pr-6 mb-6 lg:mb-0">
-              {Object.entries(sidebarData).map(([title, links]) => (
-                <SidebarSection key={title} title={title} links={links} />
+  <div className="mx-auto max-w-[2000px] flex flex-col md:flex-row">
+    {/* Botones desplegables para filtros en pantallas pequeñas */}
+    <div className="block md:hidden mb-4 relative">
+      <div className="flex flex-wrap gap-2">
+        {Object.entries(sidebarData).map(([title, links]) => (
+          <details key={title} className="group flex-1 relative">
+            <summary className="flex justify-between items-center cursor-pointer text-lg font-semibold text-black bg-gray-100 px-4 py-2 rounded focus:outline-none">
+              {title}
+              <svg
+                className="w-5 h-5 transition-transform duration-200 group-open:rotate-180"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </summary>
+            <ul className="absolute left-0 z-10 mt-2 w-full bg-white border rounded shadow-lg">
+              {links.map((link) => (
+                <li key={link.name} className="mb-2 px-4 py-2 hover:bg-gray-100">
+                  <Link href={link.href} className="text-black hover:underline">
+                    {link.name}
+                  </Link>
+                </li>
               ))}
-            </aside>
+            </ul>
+          </details>
+        ))}
+      </div>
+    </div>
 
-            {/* Lista de Productos */}
-            <div className="w-full lg:w-3/4 px-2">
-              {/* Eliminar el encabezado "Tienda" */}
-              {/* <h1 className="text-2xl font-bold mb-4">Tienda</h1> */}
+    {/* Barra Lateral para pantallas grandes */}
+    <aside className="hidden md:block lg:w-1/4 lg:pr-6 mb-6 lg:mb-0">
+      {Object.entries(sidebarData).map(([title, links]) => (
+        <SidebarSection key={title} title={title} links={links} />
+      ))}
+    </aside>
 
-              {/* Añadir texto con la cantidad de productos */}
-              <p className="text-sm font-medium mb-2 px-2">{products.length} PRODUCTOS</p>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {products.map((product) => (
-                  <div key={product.id} className="border p-4 rounded">
-                    {/* Descomenta y ajusta la imagen si tienes URLs válidas
-                    <Image
-                      src={product.imageUrl}
-                      alt={product.name}
-                      width={300}
-                      height={300}
-                      className="w-full"
-                    /> */}
-                    <h2 className="text-lg font-semibold mt-2">{product.name}</h2>
-                    <p className="text-gray-600">${product.price}</p>
-                    <Link href={`/product/${product.id}`} className="text-black hover:underline">
-                      Ver detalles
-                    </Link>
-                  </div>
-                ))}
-              </div>
-            </div>
+    {/* Lista de Productos */}
+    <div className="w-full lg:w-3/4 px-2">
+      <p className="text-sm font-medium mb-2 px-2">{products.length} PRODUCTOS</p>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {products.map((product) => (
+          <div key={product.id} className="border p-4 rounded">
+            <h2 className="text-lg font-semibold mt-2">{product.name}</h2>
+            <p className="text-gray-600">${product.price}</p>
+            <Link href={`/product/${product.id}`} className="text-black hover:underline">
+              Ver detalles
+            </Link>
           </div>
-        </section>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+
 
         {/* Footer */}
         <Footer />
