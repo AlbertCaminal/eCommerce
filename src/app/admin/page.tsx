@@ -22,31 +22,31 @@ export default function AdminAddProduct() {
     setForm({ ...form, [name]: value });
   };
 
-  const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // Previene la acción predeterminada del formulario
     setError(null);
     setSuccess(null);
-
+  
     const allowedCategories = ["cinturon", "camiseta", "jersey"];
     const allowedSizes = ["XS", "S", "M", "L", "XL", "XXL"];
-
+  
     if (!allowedCategories.includes(form.category)) {
       setError("Categoría no válida. Debe ser 'cinturon', 'camiseta' o 'jersey'.");
       return;
     }
-
+  
     if (!allowedSizes.includes(form.size)) {
       setError("Talla no válida. Debe ser 'XS', 'S', 'M', 'L', 'XL' o 'XXL'.");
       return;
     }
-
+  
     try {
       const res = await fetch("/api/admin/products", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-
+  
       if (res.ok) {
         setSuccess("Producto añadido con éxito.");
         setForm({ name: "", price: "", description: "", imageUrl: "", category: "", size: "", color: "" });
@@ -58,6 +58,7 @@ export default function AdminAddProduct() {
       setError("Error al procesar la solicitud.");
     }
   };
+  
 
   return (
     <div className="max-w-4xl mx-auto p-6">
