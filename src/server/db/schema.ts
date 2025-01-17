@@ -117,10 +117,29 @@ export const verificationTokens = createTable(
   })
 );
 
+export enum ProductCategory {
+  Cinturon = "cinturon",
+  Camiseta = "camiseta",
+  Jersey = "jersey",
+}
+
+export enum ProductSize {
+  S = "cinturon",
+  Camiseta = "camiseta",
+  Jersey = "jersey",
+}
+
 export const products = sqliteTable("products", {
   id: integer("id").primaryKey().notNull(),
   name: text("name").notNull(),
   price: integer("price").notNull(),
   description: text("description"),
   imageUrl: text("image_url").notNull(),
+  category: text("category")
+    .$type<ProductCategory>()
+    .notNull(),
+  size: text("size").notNull()
+  .$type<ProductSize>()
+  .notNull(),
+  color: text("color").notNull(),
 });
