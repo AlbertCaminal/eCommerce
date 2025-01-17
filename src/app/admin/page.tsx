@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 "use client"
 
@@ -42,29 +44,33 @@ export default function AdminAddProduct() {
     }
   
     try {
-      const res = await fetch("/api/admin/products", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-  
-      if (res.ok) {
-        setSuccess("Producto añadido con éxito.");
-        setForm({ name: "", price: "", description: "", imageUrl: "", category: "", size: "", color: "" });
-      } else {
-        const data: { message?: string } = await res.json(); // Especifica el tipo del JSON
-        setError(data.message ?? "Error al añadir el producto."); // Asegura que sea una cadena
-      }
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message); // Usa el mensaje del error si es posible
-      } else {
-        setError("Error al procesar la solicitud."); // Mensaje genérico para casos desconocidos
-      }
+        const res = await fetch("/api/admin/products", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(form),
+        });
+      
+        if (res.ok) {
+          setSuccess("Producto añadido con éxito.");
+          setForm({ name: "", price: "", description: "", imageUrl: "", category: "", size: "", color: "" });
+        } else {
+          // Verifica si hay un cuerpo JSON en la respuesta
+          const contentType = res.headers.get("Content-Type") ?? "";
+          if (contentType.includes("application/json")) {
+            const data = await res.json();
+            setError(data.message ?? "Error al añadir el producto.");
+          } else {
+            setError("Error desconocido del servidor.");
+          }
+        }
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("Error al procesar la solicitud.");
+        }
     }
-  };
-  
-  
+  }  
 
   return (
     <div className="max-w-4xl mx-auto p-6">
