@@ -16,12 +16,12 @@ export default function AdminAddProduct() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     e.preventDefault();
     setError(null);
     setSuccess(null);
