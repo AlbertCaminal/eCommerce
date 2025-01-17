@@ -129,19 +129,19 @@ const Header: React.FC<HeaderProps> = ({ session }) => {
             <nav className="hidden items-center gap-6 md:flex">
               <Link
                 href="/"
-                className="text-sm font-bold text-black xxxs:text-xxxs xs:text-xs lg:text-sm"
+                className="text-sm font-bold text-black xxxs:text-xxxs xs:text-sm lg:text-sm"
               >
                 HOMBRES
               </Link>
               <Link
                 href="/mujeres"
-                className="text-sm hover:text-gray-600 xxxs:text-xxxs xs:text-xs lg:text-sm"
+                className="text-sm hover:text-gray-600 xxxs:text-xxxs xs:text-sm lg:text-sm"
               >
                 MUJERES
               </Link>
               <Link
                 href="/ninos"
-                className="text-sm hover:text-gray-600 xxxs:text-xxxs xs:text-xs lg:text-sm"
+                className="text-sm hover:text-gray-600 xxxs:text-xxxs xs:text-sm lg:text-sm"
               >
                 NIÑOS
               </Link>
@@ -162,7 +162,7 @@ const Header: React.FC<HeaderProps> = ({ session }) => {
               <input
                 type="text"
                 placeholder="BUSCAR..."
-                className="w-40 border border-gray-300 px-3 py-1 text-xs transition-all duration-500 focus:outline-none xxxs:w-24 xs:w-32 lg:w-64 xl:w-80 xxxl:w-96"
+                className="w-40 border border-gray-300 px-3 py-1 text-xs transition-all duration-500 focus:outline-none xxxs:w-24 xs:w-48 lg:w-64 xl:w-80 xxxl:w-96"
               />
               <button className="absolute right-2 top-1/2 -translate-y-1/2 transform text-gray-500">
                 🔍
@@ -172,14 +172,14 @@ const Header: React.FC<HeaderProps> = ({ session }) => {
               {session ? (
                 <Link
                   href="/account"
-                  className="text-lg text-gray-600 hover:text-black xxxs:text-xxxs xs:text-xs lg:text-base xl:text-lg xxxl:text-xl"
+                  className="text-lg text-gray-600 hover:text-black xxxs:text-xxxs xs:text-sm lg:text-base xl:text-lg xxxl:text-xl"
                 >
                   👤
                 </Link>
               ) : (
                 <Link
                   href="/api/auth/signin?callbackUrl=/account"
-                  className="text-lg text-gray-600 hover:text-black xxxs:text-xxxs xs:text-xs lg:text-base xl:text-lg xxxl:text-xl"
+                  className="text-lg text-gray-600 hover:text-black xxxs:text-xxxs xs:text-sm lg:text-base xl:text-lg xxxl:text-xl"
                 >
                   👤
                 </Link>
@@ -187,13 +187,13 @@ const Header: React.FC<HeaderProps> = ({ session }) => {
 
               <Link
                 href="/wishlist"
-                className="text-lg text-gray-600 hover:text-black xxxs:text-xxxs xs:text-xs lg:text-base xl:text-lg xxxl:text-xl"
+                className="text-lg text-gray-600 hover:text-black xxxs:text-xxxs xs:text-sm lg:text-base xl:text-lg xxxl:text-xl"
               >
                 ❤️
               </Link>
               <Link
                 href="/cart"
-                className="text-lg text-gray-600 hover:text-black xxxs:text-xxxs xs:text-xs lg:text-base xl:text-lg xxxl:text-xl"
+                className="text-lg text-gray-600 hover:text-black xxxs:text-xxxs xs:text-sm lg:text-base xl:text-lg xxxl:text-xl"
               >
                 🛒
               </Link>
@@ -204,7 +204,7 @@ const Header: React.FC<HeaderProps> = ({ session }) => {
 
       {/* Secondary Navigation para pantallas más grandes */}
       <div className="hidden border-t border-gray-200 bg-gray-50 py-1 md:block">
-        <div className="container mx-auto flex justify-center gap-5 py-2 text-sm font-bold xxxs:text-xxxs xs:text-xxs lg:text-base xl:text-lg xxxl:text-xl">
+        <div className="container mx-auto flex justify-center gap-5 py-2 text-sm font-bold xxxs:text-xxxs xs:text-sm lg:text-sm xl:text-lg xxxl:text-xl">
           <Link href="/novedades" className="hover:underline">
             NOVEDADES
           </Link>
