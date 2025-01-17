@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 "use client"
 
 import { useState } from "react";
@@ -23,7 +24,7 @@ export default function AdminAddProduct() {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // Previene la acción predeterminada del formulario
+    e.preventDefault();
     setError(null);
     setSuccess(null);
   
@@ -51,13 +52,18 @@ export default function AdminAddProduct() {
         setSuccess("Producto añadido con éxito.");
         setForm({ name: "", price: "", description: "", imageUrl: "", category: "", size: "", color: "" });
       } else {
-        const { message } = await res.json();
-        setError(message || "Error al añadir el producto.");
+        const data: { message?: string } = await res.json(); // Especifica el tipo del JSON
+        setError(data.message ?? "Error al añadir el producto."); // Asegura que sea una cadena
       }
-    } catch (err) {
-      setError("Error al procesar la solicitud.");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message); // Usa el mensaje del error si es posible
+      } else {
+        setError("Error al procesar la solicitud."); // Mensaje genérico para casos desconocidos
+      }
     }
   };
+  
   
 
   return (
