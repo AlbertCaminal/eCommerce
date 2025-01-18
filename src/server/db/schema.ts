@@ -117,20 +117,33 @@ export const verificationTokens = createTable(
   })
 );
 
+/**
+ * Categorías de producto
+ */
 export enum ProductCategory {
   Cinturon = "cinturon",
   Camiseta = "camiseta",
   Jersey = "jersey",
 }
 
+/**
+ * Tallas de producto
+ */
 export enum ProductSize {
-  S = "cinturon",
-  Camiseta = "camiseta",
-  Jersey = "jersey",
+  XS = "XS",
+  S = "S",
+  M = "M",
+  L = "L",
+  XL = "XL",
+  XXL = "XXL",
 }
 
+/**
+ * Tabla "products"
+ */
 export const products = sqliteTable("products", {
-  id: integer("id").primaryKey().notNull(),
+  // Ajusta si deseas autoIncrement:
+  id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
   name: text("name").notNull(),
   price: integer("price").notNull(),
   description: text("description"),
@@ -138,8 +151,8 @@ export const products = sqliteTable("products", {
   category: text("category")
     .$type<ProductCategory>()
     .notNull(),
-  size: text("size").notNull()
-  .$type<ProductSize>()
-  .notNull(),
+  size: text("size")
+    .$type<ProductSize>()
+    .notNull(),
   color: text("color").notNull(),
 });

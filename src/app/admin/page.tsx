@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-"use client"
+"use client";
 
 import { useState } from "react";
 
@@ -18,9 +18,12 @@ export default function AdminAddProduct() {
 
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
@@ -29,48 +32,56 @@ export default function AdminAddProduct() {
     e.preventDefault();
     setError(null);
     setSuccess(null);
-  
+
     const allowedCategories = ["cinturon", "camiseta", "jersey"];
     const allowedSizes = ["XS", "S", "M", "L", "XL", "XXL"];
-  
+
     if (!allowedCategories.includes(form.category)) {
       setError("Categoría no válida. Debe ser 'cinturon', 'camiseta' o 'jersey'.");
       return;
     }
-  
+
     if (!allowedSizes.includes(form.size)) {
       setError("Talla no válida. Debe ser 'XS', 'S', 'M', 'L', 'XL' o 'XXL'.");
       return;
     }
-  
+
     try {
-        const res = await fetch("/api/admin/products", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(form),
+      const res = await fetch("/api/admin/products", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      if (res.ok) {
+        setSuccess("Producto añadido con éxito.");
+        setForm({
+          name: "",
+          price: "",
+          description: "",
+          imageUrl: "",
+          category: "",
+          size: "",
+          color: "",
         });
-      
-        if (res.ok) {
-          setSuccess("Producto añadido con éxito.");
-          setForm({ name: "", price: "", description: "", imageUrl: "", category: "", size: "", color: "" });
+      } else {
+        // Verifica si hay un cuerpo JSON en la respuesta
+        const contentType = res.headers.get("Content-Type") ?? "";
+        if (contentType.includes("application/json")) {
+          const data = await res.json();
+          setError(data.message ?? "Error al añadir el producto.");
         } else {
-          // Verifica si hay un cuerpo JSON en la respuesta
-          const contentType = res.headers.get("Content-Type") ?? "";
-          if (contentType.includes("application/json")) {
-            const data = await res.json();
-            setError(data.message ?? "Error al añadir el producto.");
-          } else {
-            setError("Error desconocido del servidor.");
-          }
+          setError("Error desconocido del servidor.");
         }
-      } catch (err: unknown) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("Error al procesar la solicitud.");
-        }
+      }
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Error al procesar la solicitud.");
+      }
     }
-  }  
+  };
 
   return (
     <div className="max-w-4xl mx-auto p-6">
@@ -79,7 +90,9 @@ export default function AdminAddProduct() {
       {success && <p className="text-green-500 mb-4">{success}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium">Nombre</label>
+          <label htmlFor="name" className="block text-sm font-medium">
+            Nombre
+          </label>
           <input
             type="text"
             id="name"
@@ -92,7 +105,9 @@ export default function AdminAddProduct() {
         </div>
 
         <div>
-          <label htmlFor="price" className="block text-sm font-medium">Precio</label>
+          <label htmlFor="price" className="block text-sm font-medium">
+            Precio
+          </label>
           <input
             type="number"
             id="price"
@@ -105,18 +120,22 @@ export default function AdminAddProduct() {
         </div>
 
         <div>
-          <label htmlFor="description" className="block text-sm font-medium">Descripción</label>
+          <label htmlFor="description" className="block text-sm font-medium">
+            Descripción
+          </label>
           <textarea
             id="description"
             name="description"
             value={form.description}
             onChange={handleChange}
             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-          ></textarea>
+          />
         </div>
 
         <div>
-          <label htmlFor="imageUrl" className="block text-sm font-medium">URL de la Imagen</label>
+          <label htmlFor="imageUrl" className="block text-sm font-medium">
+            URL de la Imagen
+          </label>
           <input
             type="text"
             id="imageUrl"
@@ -129,7 +148,9 @@ export default function AdminAddProduct() {
         </div>
 
         <div>
-          <label htmlFor="category" className="block text-sm font-medium">Categoría</label>
+          <label htmlFor="category" className="block text-sm font-medium">
+            Categoría
+          </label>
           <select
             id="category"
             name="category"
@@ -146,7 +167,9 @@ export default function AdminAddProduct() {
         </div>
 
         <div>
-          <label htmlFor="size" className="block text-sm font-medium">Tamaño</label>
+          <label htmlFor="size" className="block text-sm font-medium">
+            Tamaño
+          </label>
           <select
             id="size"
             name="size"
@@ -166,7 +189,9 @@ export default function AdminAddProduct() {
         </div>
 
         <div>
-          <label htmlFor="color" className="block text-sm font-medium">Color</label>
+          <label htmlFor="color" className="block text-sm font-medium">
+            Color
+          </label>
           <input
             type="text"
             id="color"
