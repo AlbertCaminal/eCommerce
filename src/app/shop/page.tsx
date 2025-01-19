@@ -129,8 +129,18 @@ export default async function Shop() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {products.map((product) => (
           <div key={product.id} className="border p-4 rounded">
-            <h2 className="text-lg font-semibold mt-2">{product.name}</h2>
-            <p className="text-gray-600">${product.price}</p>
+                  
+            {/* Usando el componente Image de Next.js */}
+            <Image
+              src={product.imageUrl}
+              alt={product.name}
+              width={400}    // Ajusta el tamaño deseado
+              height={400}
+              className="object-cover" // O cualquier clase de Tailwind que prefieras
+            />
+            <h2 className="text-lg text-gray-800 font-semibold mt-2">{product.name}</h2>
+            <p className="text-black-500 font-bold">${product.price}</p>
+                        
             <Link href={`/product/${product.id}`} className="text-black hover:underline">
               Ver detalles
             </Link>

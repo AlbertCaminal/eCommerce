@@ -156,3 +156,4 @@ export const products = sqliteTable("products", {
     .notNull(),
   color: text("color").notNull(),
 });
+
