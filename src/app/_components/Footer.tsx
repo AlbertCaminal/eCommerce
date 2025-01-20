@@ -71,7 +71,7 @@ const Footer: React.FC = () => {
         </div>
 
         {/* Footer Bottom */}
-        <div className="mt-12 border-t border-gray-300 pt-6 text-center text-gray-600 text-sm lg:text-base">
+        <div className="mt-12 border-t border-gray-300 pt-12 text-center text-gray-600 text-sm lg:text-base">
           &copy; {new Date().getFullYear()} LOGO. Todos los derechos reservados.
         </div>
       </div>

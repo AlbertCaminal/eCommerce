@@ -7,21 +7,28 @@ import Image from "next/image";
 import Footer from "../_components/Footer";
 
 // Componente para secciones desplegables utilizando <details> y <summary>
-const SidebarSection: React.FC<{ title: string; links: { name: string; href: string }[] }> = ({ title, links }) => {
+const SidebarSection: React.FC<{
+  title: string;
+  links: { name: string; href: string }[];
+}> = ({ title, links }) => {
   return (
     <div className="mb-4">
       <details className="group" open={true}>
-        {/* El atributo "open={true}" asegura que la sección esté abierta por defecto */}
-        <summary className="flex justify-between items-center cursor-pointer text-lg font-semibold text-black focus:outline-none">
+        <summary className="flex cursor-pointer items-center justify-between text-lg font-semibold text-black focus:outline-none">
           {title}
           <svg
-            className="w-5 h-5 transition-transform duration-200 group-open:rotate-180"
+            className="h-5 w-5 transition-transform duration-200 group-open:rotate-180"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 9l-7 7-7-7"
+            />
           </svg>
         </summary>
         <ul className="mt-2 pl-4">
@@ -38,11 +45,14 @@ const SidebarSection: React.FC<{ title: string; links: { name: string; href: str
   );
 };
 
-export default async function Shop() {
+export default async function Shop({
+  searchParams,
+}: {
+  searchParams: { size?: string };
+}) {
   const session = await auth();
   const products = await api.products.getAllProducts();
 
-  // Define las secciones y enlaces de la barra lateral, sin "Más vendidos"
   const sidebarData = {
     Categorías: [
       { name: "Vaqueros", href: "/categorias/vaqueros" },
@@ -75,85 +85,76 @@ export default async function Shop() {
     ],
   };
 
+  const gridSize =
+    searchParams.size === "large"
+      ? "lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 xs:grid-cols-2"
+      : "md:grid-cols-4 sm:grid-cols-3 xs:grid-cols-3 xxs:grid-cols-2 xxxs:grid-cols-2";
+  const imageSize = searchParams.size === "large" ? 600 : 400;
+
   return (
     <HydrateClient>
       <main className="flex min-h-screen flex-col bg-white text-gray-900">
-        {/* Header */}
         <Header session={session} />
 
-        {/* Contenido de la tienda */}
-        {/* Añadimos flex-1 para que esta sección ocupe el espacio disponible */}
-        <section className="flex-1 mt-6 px-6 lg:px-6 xl:px-6">
-  <div className="mx-auto max-w-[2000px] flex flex-col md:flex-row">
-    {/* Botones desplegables para filtros en pantallas pequeñas */}
-    <div className="block md:hidden mb-4 relative">
-      <div className="flex flex-wrap gap-2">
-        {Object.entries(sidebarData).map(([title, links]) => (
-          <details key={title} className="group flex-1 relative">
-            <summary className="flex justify-between items-center cursor-pointer text-lg font-semibold text-black bg-gray-100 px-4 py-2 rounded focus:outline-none">
-              {title}
-              <svg
-                className="w-5 h-5 transition-transform duration-200 group-open:rotate-180"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </summary>
-            <ul className="absolute left-0 z-10 mt-2 w-full bg-white border rounded shadow-lg">
-              {links.map((link) => (
-                <li key={link.name} className="mb-2 px-4 py-2 hover:bg-gray-100">
-                  <Link href={link.href} className="text-black hover:underline">
-                    {link.name}
-                  </Link>
-                </li>
+        <section className="relative mx-auto mt-6 max-w-[2050px] flex-1 px-6 lg:px-6 xl:px-6">
+        <div className="absolute top-[-12px] right-0 mt-0 mr-4 flex space-x-2">
+  <Link 
+    href={{ pathname: "/shop", query: { size: "normal" } }} 
+    className={`px-4 py-2 text-base sm:px-3 sm:py-1 sm:text-sm xs:px-2 xs:py-1 xs:text-xs xxs:px-1 xxs:py-0.5 xxs:text-xxs xxxs:px-0.5 xxxs:py-0.5 xxxs:text-xxxs ${searchParams.size !== "large" ? "bg-gray-900 text-white" : "bg-gray-200"}`}
+  >
+    Tamaño Normal
+  </Link>
+  <Link 
+    href={{ pathname: "/shop", query: { size: "large" } }} 
+    className={`px-4 py-2 text-base sm:px-3 sm:py-1 sm:text-sm xs:px-2 xs:py-1 xs:text-xs xxs:px-1 xxs:py-0.5 xxs:text-xxs xxxs:px-0.5 xxxs:py-0.5 xxxs:text-xxxs ${searchParams.size === "large" ? "bg-gray-900 text-white" : "bg-gray-200"}`}
+  >
+    Tamaño Grande
+  </Link>
+</div>
+
+
+          <div className="mx-auto flex max-w-[2000px] flex-col md:flex-row">
+            {/* Barra lateral */}
+            <aside className="mb-6 hidden md:block lg:mb-0 lg:w-1/4 lg:pr-6">
+              {Object.entries(sidebarData).map(([title, links]) => (
+                <SidebarSection key={title} title={title} links={links} />
               ))}
-            </ul>
-          </details>
-        ))}
-      </div>
-    </div>
+            </aside>
 
-    {/* Barra Lateral para pantallas grandes */}
-    <aside className="hidden md:block lg:w-1/4 lg:pr-6 mb-6 lg:mb-0">
-      {Object.entries(sidebarData).map(([title, links]) => (
-        <SidebarSection key={title} title={title} links={links} />
-      ))}
-    </aside>
-
-    {/* Lista de Productos */}
-    <div className="w-full lg:w-3/4 px-2">
-      <p className="text-sm font-medium mb-2 px-2">{products.length} PRODUCTOS</p>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {products.map((product) => (
-          <div key={product.id} className="border p-4 rounded">
-                  
-            {/* Usando el componente Image de Next.js */}
-            <Image
-              src={product.imageUrl}
-              alt={product.name}
-              width={400}    // Ajusta el tamaño deseado
-              height={400}
-              className="object-cover" // O cualquier clase de Tailwind que prefieras
-            />
-            <h2 className="text-lg text-gray-800 font-semibold mt-2">{product.name}</h2>
-            <p className="text-black-500 font-bold">${product.price}</p>
-                        
-            <Link href={`/product/${product.id}`} className="text-black hover:underline">
-              Ver detalles
-            </Link>
+            {/* Lista de Productos */}
+            <div className="w-full px-2 lg:w-3/4">
+              <p className="mb-2 px-2 text-sm font-medium">
+                {products.length} PRODUCTOS
+              </p>
+              <div className={`grid grid-cols-1 ${gridSize} gap-6`}>
+                {products.map((product) => (
+                  <div key={product.id}>
+                    <Image
+                      src={product.imageUrl}
+                      alt={product.name}
+                      width={imageSize}
+                      height={imageSize}
+                      className="object-cover"
+                    />
+                    <h2 className="text-md mt-2 text-gray-800">
+                      {product.name}
+                    </h2>
+                    <p className="text-black-500 text-sm font-bold">
+                      ${product.price}
+                    </p>
+                    <Link
+                      href={`/product/${product.id}`}
+                      className="text-black hover:underline"
+                    >
+                      Ver detalles
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-        ))}
-      </div>
-    </div>
-  </div>
-</section>
+        </section>
 
-
-
-        {/* Footer */}
         <Footer />
       </main>
     </HydrateClient>
