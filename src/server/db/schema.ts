@@ -157,3 +157,11 @@ export const products = sqliteTable("products", {
   color: text("color").notNull(),
 });
 
+export const productImages = sqliteTable("product_images", {
+  id: integer("id", { mode: "number" })
+    .primaryKey({ autoIncrement: true }),
+  productId: integer("product_id", { mode: "number" })
+    .notNull()
+    .references(() => products.id), // FK que apunta a products.id
+  url: text("url").notNull(),
+});
