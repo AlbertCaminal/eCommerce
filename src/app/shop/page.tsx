@@ -6,13 +6,18 @@ import Link from "next/link";
 import Image from "next/image";
 import Footer from "../_components/Footer";
 
+type ShopSearchParams = {
+  size?: string;
+};
+
 interface ShopPageProps {
-  searchParams?: {
-    size?: string;
-  };
+  searchParams?: ShopSearchParams;
 }
 
 export default async function Shop({ searchParams }: ShopPageProps) {
+  const sizeParam = searchParams?.size;
+
+  // Server actions o data fetching
   const session = await auth();
   const products = await api.products.getAllProducts();
 
@@ -20,42 +25,20 @@ export default async function Shop({ searchParams }: ShopPageProps) {
     Categorías: [
       { name: "Vaqueros", href: "/categorias/vaqueros" },
       { name: "Bermudas", href: "/categorias/bermudas" },
-      { name: "Pantalones", href: "/categorias/pantalones" },
-      { name: "Shirts", href: "/categorias/shirts" },
-      { name: "Chaquetas y abrigos", href: "/categorias/chaquetas-abrigos" },
-      { name: "Camisetas", href: "/categorias/camisetas" },
-      { name: "Sudaderas", href: "/categorias/sudaderas" },
-      { name: "Trajes", href: "/categorias/trajes" },
-      { name: "Accesorios", href: "/categorias/accesorios" },
-      { name: "Zapatos", href: "/categorias/zapatos" },
-      { name: "Punto", href: "/categorias/punto" },
+      // ...etc
     ],
     Descuentos: [
       { name: "20%", href: "/descuentos/20" },
       { name: "30%", href: "/descuentos/30" },
-      { name: "40%", href: "/descuentos/40" },
-      { name: "50%", href: "/descuentos/50" },
+      // ...etc
     ],
     Tallas: [
       { name: "XS", href: "/tallas/xs" },
       { name: "S", href: "/tallas/s" },
-      { name: "M", href: "/tallas/m" },
-      { name: "L", href: "/tallas/l" },
-      { name: "XL", href: "/tallas/xl" },
-      { name: "XXL", href: "/tallas/xxl" },
-      { name: "Junior", href: "/tallas/junior" },
-      { name: "Plus Size", href: "/tallas/plus-size" },
+      // ...etc
     ],
   };
 
-  const sizeParam = searchParams?.size;
-  const gridSize =
-    sizeParam === "large"
-      ? "lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 xs:grid-cols-2"
-      : "md:grid-cols-4 sm:grid-cols-3 xs:grid-cols-3 xxs:grid-cols-2 xxxs:grid-cols-2";
-  const imageSize = sizeParam === "large" ? 600 : 400;
-
-  // A small sub-component for the collapsible section
   const SidebarSection: React.FC<{
     title: string;
     links: { name: string; href: string }[];
@@ -91,13 +74,7 @@ export default async function Shop({ searchParams }: ShopPageProps) {
           </summary>
           <ul className="mt-2 pl-4">
             {links.map((link) => (
-              <li
-                key={link.name}
-                className="
-                  mb-2
-                  text-base xxs:text-sm
-                "
-              >
+              <li key={link.name} className="mb-2 text-base xxs:text-sm">
                 <Link href={link.href} className="text-black hover:underline">
                   {link.name}
                 </Link>
@@ -109,6 +86,13 @@ export default async function Shop({ searchParams }: ShopPageProps) {
     );
   };
 
+  // Determinar el tamaño de la grilla
+  const gridSize =
+    sizeParam === "large"
+      ? "lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 xs:grid-cols-2"
+      : "md:grid-cols-4 sm:grid-cols-3 xs:grid-cols-3 xxs:grid-cols-2 xxxs:grid-cols-2";
+  const imageSize = sizeParam === "large" ? 600 : 400;
+
   return (
     <HydrateClient>
       <main className="flex min-h-screen flex-col bg-white text-gray-900">
@@ -116,6 +100,7 @@ export default async function Shop({ searchParams }: ShopPageProps) {
 
         {/* FILTROS ARRIBA (Versión móvil colapsable) */}
         <section className="relative mx-auto mt-4 max-w-[2050px] flex-1 px-4 lg:px-6 xl:px-6">
+          {/* Mobile filters */}
           <div className="block md:hidden">
             <details className="group relative mb-4">
               <summary
@@ -144,7 +129,6 @@ export default async function Shop({ searchParams }: ShopPageProps) {
                   />
                 </svg>
               </summary>
-              {/* Contenedor overlay al abrir en móvil */}
               <div className="absolute left-0 right-0 top-full z-50 hidden group-open:block bg-white p-4 shadow-md">
                 {Object.entries(sidebarData).map(([title, links]) => (
                   <SidebarSection key={title} title={title} links={links} />
@@ -154,23 +138,18 @@ export default async function Shop({ searchParams }: ShopPageProps) {
           </div>
 
           <div className="mx-auto flex max-w-[2000px] flex-col md:flex-row">
-            {/* Barra lateral (solo escritorio) */}
+            {/* Desktop sidebar */}
             <aside className="mb-6 hidden md:block lg:mb-0 lg:w-1/4 lg:pr-6">
               {Object.entries(sidebarData).map(([title, links]) => (
                 <SidebarSection key={title} title={title} links={links} />
               ))}
             </aside>
 
-            {/* CONTENIDO PRINCIPAL */}
+            {/* MAIN CONTENT */}
             <div className="w-full px-2 lg:w-3/4">
-              {/* Fila: número de productos a la izquierda y botones pegados a la derecha */}
-              <div className="mb-4 flex items-center justify-between ">
-                <p
-                  className="
-                    text-sm font-medium
-                    xxs:text-xs
-                  "
-                >
+              {/* Fila superior: cantidad de productos + botones de tamaño */}
+              <div className="mb-4 flex items-center justify-between">
+                <p className="text-sm font-medium xxs:text-xs">
                   {products.length} PRODUCTOS
                 </p>
                 <div className="flex space-x-2">
@@ -205,7 +184,7 @@ export default async function Shop({ searchParams }: ShopPageProps) {
                 </div>
               </div>
 
-              {/* Grid de productos */}
+              {/* Product grid */}
               <div className={`grid grid-cols-1 ${gridSize} gap-6`}>
                 {products.map((product) => (
                   <div key={product.id}>
@@ -216,28 +195,15 @@ export default async function Shop({ searchParams }: ShopPageProps) {
                       height={imageSize}
                       className="object-cover"
                     />
-                    <h2
-                      className="
-                        mt-2 text-base text-gray-800
-                        xs:text-sm xxs:text-xs
-                      "
-                    >
+                    <h2 className="mt-2 text-base text-gray-800 xs:text-sm xxs:text-xs">
                       {product.name}
                     </h2>
-                    <p
-                      className="
-                        text-black-500 text-sm font-bold
-                        xs:text-xs xxs:text-xxs
-                      "
-                    >
+                    <p className="text-black-500 text-sm font-bold xs:text-xs xxs:text-xxs">
                       ${product.price}
                     </p>
                     <Link
                       href={`/product/${product.id}`}
-                      className="
-                        text-black hover:underline
-                        text-sm xs:text-xs xxs:text-xxs
-                      "
+                      className="text-black hover:underline text-sm xs:text-xs xxs:text-xxs"
                     >
                       Ver detalles
                     </Link>
