@@ -1,23 +1,35 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { api, HydrateClient } from "~/trpc/server";
 import { auth } from "~/server/auth";
-import Header from "../_components/Header"; // Ajusta la ruta si es necesario
+import Header from "../_components/Header";
 import Link from "next/link";
 import Image from "next/image";
 import Footer from "../_components/Footer";
 
-// Componente para secciones desplegables utilizando <details> y <summary>
+/**
+ * Componente para secciones desplegables utilizando <details> y <summary>
+ */
 const SidebarSection: React.FC<{
   title: string;
   links: { name: string; href: string }[];
 }> = ({ title, links }) => {
   return (
     <div className="mb-4">
-      <details className="group" open={true}>
-        <summary className="flex cursor-pointer items-center justify-between text-lg font-semibold text-black focus:outline-none">
+      <details className="group" open>
+        <summary
+          className="
+            flex cursor-pointer items-center justify-between
+            text-lg font-semibold text-black focus:outline-none
+            xs:text-base xxs:text-sm    /* Texto más pequeño en pantallas reducidas */
+          "
+        >
           {title}
           <svg
-            className="h-5 w-5 transition-transform duration-200 group-open:rotate-180"
+            /* Icono un poco más grande en pantallas muy pequeñas */
+            className="
+              h-5 w-5 transition-transform duration-200 group-open:rotate-180
+              xxs:h-6 xxs:w-6
+            "
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -33,7 +45,13 @@ const SidebarSection: React.FC<{
         </summary>
         <ul className="mt-2 pl-4">
           {links.map((link) => (
-            <li key={link.name} className="mb-2">
+            <li
+              key={link.name}
+              className="
+                mb-2
+                text-base xxs:text-sm     /* Texto más pequeño en xxs */
+              "
+            >
               <Link href={link.href} className="text-black hover:underline">
                 {link.name}
               </Link>
@@ -96,36 +114,98 @@ export default async function Shop({
       <main className="flex min-h-screen flex-col bg-white text-gray-900">
         <Header session={session} />
 
-        <section className="relative mx-auto mt-6 max-w-[2050px] flex-1 px-6 lg:px-6 xl:px-6">
-        <div className="absolute top-[-12px] right-0 mt-0 mr-4 flex space-x-2">
-  <Link 
-    href={{ pathname: "/shop", query: { size: "normal" } }} 
-    className={`px-4 py-2 text-base sm:px-3 sm:py-1 sm:text-sm xs:px-2 xs:py-1 xs:text-xs xxs:px-1 xxs:py-0.5 xxs:text-xxs xxxs:px-0.5 xxxs:py-0.5 xxxs:text-xxxs ${searchParams.size !== "large" ? "bg-gray-900 text-white" : "bg-gray-200"}`}
-  >
-    Tamaño Normal
-  </Link>
-  <Link 
-    href={{ pathname: "/shop", query: { size: "large" } }} 
-    className={`px-4 py-2 text-base sm:px-3 sm:py-1 sm:text-sm xs:px-2 xs:py-1 xs:text-xs xxs:px-1 xxs:py-0.5 xxs:text-xxs xxxs:px-0.5 xxxs:py-0.5 xxxs:text-xxxs ${searchParams.size === "large" ? "bg-gray-900 text-white" : "bg-gray-200"}`}
-  >
-    Tamaño Grande
-  </Link>
-</div>
-
+        {/* FILTROS ARRIBA (Versión móvil colapsable) */}
+        <section className="relative mx-auto mt-4 max-w-[2050px] flex-1 px-4 lg:px-6 xl:px-6">
+          <div className="block md:hidden">
+            <details className="group relative mb-4">
+              <summary
+                className="
+                  flex cursor-pointer items-center justify-between
+                  bg-gray-100 px-4 py-2 text-lg font-semibold text-black focus:outline-none
+                  xs:text-base xxs:text-sm
+                "
+              >
+                Filtrar
+                <svg
+                  className="
+                    h-5 w-5 transition-transform duration-200 group-open:rotate-180
+                    xxs:h-6 xxs:w-6
+                  "
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </summary>
+              {/* Contenedor overlay al abrir en móvil */}
+              <div className="absolute left-0 right-0 top-full z-50 hidden group-open:block bg-white p-4 shadow-md">
+                {Object.entries(sidebarData).map(([title, links]) => (
+                  <SidebarSection key={title} title={title} links={links} />
+                ))}
+              </div>
+            </details>
+          </div>
 
           <div className="mx-auto flex max-w-[2000px] flex-col md:flex-row">
-            {/* Barra lateral */}
+            {/* Barra lateral (solo escritorio) */}
             <aside className="mb-6 hidden md:block lg:mb-0 lg:w-1/4 lg:pr-6">
               {Object.entries(sidebarData).map(([title, links]) => (
                 <SidebarSection key={title} title={title} links={links} />
               ))}
             </aside>
 
-            {/* Lista de Productos */}
+            {/* CONTENIDO PRINCIPAL */}
             <div className="w-full px-2 lg:w-3/4">
-              <p className="mb-2 px-2 text-sm font-medium">
-                {products.length} PRODUCTOS
-              </p>
+              {/* Fila: número de productos a la izquierda y botones pegados a la derecha */}
+              <div className="mb-4 flex items-center justify-between ">
+                <p
+                  className="
+                    text-sm font-medium
+                    xxs:text-xs  /* Número de productos más pequeño en xxs */
+                  "
+                >
+                  {products.length} PRODUCTOS
+                </p>
+                <div className="flex space-x-2">
+                  <Link
+                    href={{ pathname: "/shop", query: { size: "normal" } }}
+                    className={`
+                      px-3 py-1 text-sm
+                      xxs:text-xs 
+                      ${
+                        searchParams.size !== "large"
+                          ? "bg-gray-900 text-white"
+                          : "bg-gray-200"
+                      }
+                    `}
+                  >
+                    Tamaño Normal
+                  </Link>
+                  <Link
+                    href={{ pathname: "/shop", query: { size: "large" } }}
+                    className={`
+                      px-3 py-1 text-sm
+                      xxs:text-xs 
+                      ${
+                        searchParams.size === "large"
+                          ? "bg-gray-900 text-white"
+                          : "bg-gray-200"
+                      }
+                    `}
+                  >
+                    Tamaño Grande
+                  </Link>
+                </div>
+              </div>
+
+              {/* Grid de productos */}
               <div className={`grid grid-cols-1 ${gridSize} gap-6`}>
                 {products.map((product) => (
                   <div key={product.id}>
@@ -136,15 +216,28 @@ export default async function Shop({
                       height={imageSize}
                       className="object-cover"
                     />
-                    <h2 className="text-md mt-2 text-gray-800">
+                    <h2
+                      className="
+                        mt-2 text-base text-gray-800
+                        xs:text-sm xxs:text-xs    /* Nombre del producto más pequeño en pantallas muy reducidas */
+                      "
+                    >
                       {product.name}
                     </h2>
-                    <p className="text-black-500 text-sm font-bold">
+                    <p
+                      className="
+                        text-black-500 text-sm font-bold
+                        xs:text-xs xxs:text-xxs
+                      "
+                    >
                       ${product.price}
                     </p>
                     <Link
                       href={`/product/${product.id}`}
-                      className="text-black hover:underline"
+                      className="
+                        text-black hover:underline
+                        text-sm xs:text-xs xxs:text-xxs
+                      "
                     >
                       Ver detalles
                     </Link>
