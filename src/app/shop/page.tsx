@@ -25,17 +25,31 @@ export default async function Shop({ searchParams }: ShopPageProps) {
     Categorías: [
       { name: "Vaqueros", href: "/categorias/vaqueros" },
       { name: "Bermudas", href: "/categorias/bermudas" },
-      // ...etc
+      { name: "Pantalones", href: "/categorias/pantalones" },
+      { name: "Shirts", href: "/categorias/shirts" },
+      { name: "Chaquetas y abrigos", href: "/categorias/chaquetas-abrigos" },
+      { name: "Camisetas", href: "/categorias/camisetas" },
+      { name: "Sudaderas", href: "/categorias/sudaderas" },
+      { name: "Trajes", href: "/categorias/trajes" },
+      { name: "Accesorios", href: "/categorias/accesorios" },
+      { name: "Zapatos", href: "/categorias/zapatos" },
+      { name: "Punto", href: "/categorias/punto" },
     ],
     Descuentos: [
       { name: "20%", href: "/descuentos/20" },
       { name: "30%", href: "/descuentos/30" },
-      // ...etc
+      { name: "40%", href: "/descuentos/40" },
+      { name: "50%", href: "/descuentos/50" },
     ],
     Tallas: [
       { name: "XS", href: "/tallas/xs" },
       { name: "S", href: "/tallas/s" },
-      // ...etc
+      { name: "M", href: "/tallas/m" },
+      { name: "L", href: "/tallas/l" },
+      { name: "XL", href: "/tallas/xl" },
+      { name: "XXL", href: "/tallas/xxl" },
+      { name: "Junior", href: "/tallas/junior" },
+      { name: "Plus Size", href: "/tallas/plus-size" },
     ],
   };
 
