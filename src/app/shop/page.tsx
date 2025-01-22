@@ -6,68 +6,13 @@ import Link from "next/link";
 import Image from "next/image";
 import Footer from "../_components/Footer";
 
-/**
- * Componente para secciones desplegables utilizando <details> y <summary>
- */
-const SidebarSection: React.FC<{
-  title: string;
-  links: { name: string; href: string }[];
-}> = ({ title, links }) => {
-  return (
-    <div className="mb-4">
-      <details className="group" open>
-        <summary
-          className="
-            flex cursor-pointer items-center justify-between
-            text-lg font-semibold text-black focus:outline-none
-            xs:text-base xxs:text-sm    /* Texto más pequeño en pantallas reducidas */
-          "
-        >
-          {title}
-          <svg
-            /* Icono un poco más grande en pantallas muy pequeñas */
-            className="
-              h-5 w-5 transition-transform duration-200 group-open:rotate-180
-              xxs:h-6 xxs:w-6
-            "
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M19 9l-7 7-7-7"
-            />
-          </svg>
-        </summary>
-        <ul className="mt-2 pl-4">
-          {links.map((link) => (
-            <li
-              key={link.name}
-              className="
-                mb-2
-                text-base xxs:text-sm     /* Texto más pequeño en xxs */
-              "
-            >
-              <Link href={link.href} className="text-black hover:underline">
-                {link.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </details>
-    </div>
-  );
-};
+interface ShopPageProps {
+  searchParams?: {
+    size?: string;
+  };
+}
 
-export default async function Shop({
-  searchParams,
-}: {
-  searchParams: { size?: string };
-}) {
+export default async function Shop({ searchParams }: ShopPageProps) {
   const session = await auth();
   const products = await api.products.getAllProducts();
 
@@ -103,11 +48,66 @@ export default async function Shop({
     ],
   };
 
+  const sizeParam = searchParams?.size;
   const gridSize =
-    searchParams.size === "large"
+    sizeParam === "large"
       ? "lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 xs:grid-cols-2"
       : "md:grid-cols-4 sm:grid-cols-3 xs:grid-cols-3 xxs:grid-cols-2 xxxs:grid-cols-2";
-  const imageSize = searchParams.size === "large" ? 600 : 400;
+  const imageSize = sizeParam === "large" ? 600 : 400;
+
+  // A small sub-component for the collapsible section
+  const SidebarSection: React.FC<{
+    title: string;
+    links: { name: string; href: string }[];
+  }> = ({ title, links }) => {
+    return (
+      <div className="mb-4">
+        <details className="group" open>
+          <summary
+            className="
+              flex cursor-pointer items-center justify-between
+              text-lg font-semibold text-black focus:outline-none
+              xs:text-base xxs:text-sm
+            "
+          >
+            {title}
+            <svg
+              className="
+                h-5 w-5 transition-transform duration-200 group-open:rotate-180
+                xxs:h-6 xxs:w-6
+              "
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </summary>
+          <ul className="mt-2 pl-4">
+            {links.map((link) => (
+              <li
+                key={link.name}
+                className="
+                  mb-2
+                  text-base xxs:text-sm
+                "
+              >
+                <Link href={link.href} className="text-black hover:underline">
+                  {link.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </details>
+      </div>
+    );
+  };
 
   return (
     <HydrateClient>
@@ -168,7 +168,7 @@ export default async function Shop({
                 <p
                   className="
                     text-sm font-medium
-                    xxs:text-xs  /* Número de productos más pequeño en xxs */
+                    xxs:text-xs
                   "
                 >
                   {products.length} PRODUCTOS
@@ -178,9 +178,9 @@ export default async function Shop({
                     href={{ pathname: "/shop", query: { size: "normal" } }}
                     className={`
                       px-3 py-1 text-sm
-                      xxs:text-xs 
+                      xxs:text-xs
                       ${
-                        searchParams.size !== "large"
+                        sizeParam !== "large"
                           ? "bg-gray-900 text-white"
                           : "bg-gray-200"
                       }
@@ -192,9 +192,9 @@ export default async function Shop({
                     href={{ pathname: "/shop", query: { size: "large" } }}
                     className={`
                       px-3 py-1 text-sm
-                      xxs:text-xs 
+                      xxs:text-xs
                       ${
-                        searchParams.size === "large"
+                        sizeParam === "large"
                           ? "bg-gray-900 text-white"
                           : "bg-gray-200"
                       }
@@ -219,7 +219,7 @@ export default async function Shop({
                     <h2
                       className="
                         mt-2 text-base text-gray-800
-                        xs:text-sm xxs:text-xs    /* Nombre del producto más pequeño en pantallas muy reducidas */
+                        xs:text-sm xxs:text-xs
                       "
                     >
                       {product.name}
