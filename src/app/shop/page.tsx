@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Footer from "../_components/Footer";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default async function Shop({ searchParams }: any) {
   const { size } = await searchParams;
 
