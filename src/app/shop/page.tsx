@@ -6,18 +6,9 @@ import Link from "next/link";
 import Image from "next/image";
 import Footer from "../_components/Footer";
 
-type ShopSearchParams = {
-  size?: string;
-};
+export default async function Shop({ searchParams }: any) {
+  const sizeParam = (await searchParams).size;
 
-interface ShopPageProps {
-  searchParams?: ShopSearchParams;
-}
-
-export default async function Shop({ searchParams }: ShopPageProps) {
-  const sizeParam = searchParams?.size;
-
-  // Server actions o data fetching
   const session = await auth();
   const products = await api.products.getAllProducts();
 
