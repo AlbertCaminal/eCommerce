@@ -1,9 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 
 // IMPORTA tus tablas desde schema.ts
-import { products, productImages } from "~/server/db/schema";
+import { products, productImages, ProductSize } from "~/server/db/schema";
 
 export const productsRouter = createTRPCRouter({
   // Ejemplo de endpoint existente
@@ -17,7 +21,7 @@ export const productsRouter = createTRPCRouter({
       z.object({
         productId: z.number(),
         urls: z.array(z.string().url()),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       // Construimos un array de filas para insertar (una por URL)
@@ -32,4 +36,35 @@ export const productsRouter = createTRPCRouter({
       // Retornamos lo que necesites (por ejemplo, las filas insertadas o algún mensaje)
       return result;
     }),
+
+  createProduct: publicProcedure
+    .input(
+      z.object({
+        name: z.string(),
+        size: z.string(),
+        color: z.string(),
+        price: z.number(),
+        category: z.string(),
+        imageUrl: z.string(),
+        description: z.string(),
+      }),
+    )
+    .mutation(
+      async ({
+        ctx,
+        input: { name, size, color, price, category, imageUrl, description },
+      }) => {
+        return await ctx.db.insert(products).values({
+          name,
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+          size: size as any,
+          color,
+          price,
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+          category: category as any,
+          imageUrl,
+          description,
+        });
+      },
+    ),
 });

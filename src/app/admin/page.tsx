@@ -4,6 +4,7 @@
 "use client";
 
 import { useState } from "react";
+import { api } from "~/trpc/react";
 
 export default function AdminAddProduct() {
   const [form, setForm] = useState({
@@ -16,78 +17,39 @@ export default function AdminAddProduct() {
     color: "",
   });
 
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
+  const { mutate, isError, isSuccess } =
+    api.products.createProduct.useMutation();
 
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError(null);
-    setSuccess(null);
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
 
-    const allowedCategories = ["cinturon", "camiseta", "jersey"];
-    const allowedSizes = ["XS", "S", "M", "L", "XL", "XXL"];
-
-    if (!allowedCategories.includes(form.category)) {
-      setError("Categoría no válida. Debe ser 'cinturon', 'camiseta' o 'jersey'.");
-      return;
-    }
-
-    if (!allowedSizes.includes(form.size)) {
-      setError("Talla no válida. Debe ser 'XS', 'S', 'M', 'L', 'XL' o 'XXL'.");
-      return;
-    }
-
-    try {
-      const res = await fetch("/api/admin/products", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-
-      if (res.ok) {
-        setSuccess("Producto añadido con éxito.");
-        setForm({
-          name: "",
-          price: "",
-          description: "",
-          imageUrl: "",
-          category: "",
-          size: "",
-          color: "",
-        });
-      } else {
-        // Verifica si hay un cuerpo JSON en la respuesta
-        const contentType = res.headers.get("Content-Type") ?? "";
-        if (contentType.includes("application/json")) {
-          const data = await res.json();
-          setError(data.message ?? "Error al añadir el producto.");
-        } else {
-          setError("Error desconocido del servidor.");
-        }
-      }
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("Error al procesar la solicitud.");
-      }
-    }
+    console.log("Submitting form", { form });
+    if (!form.price) throw new Error("BROOO MISSING PRICE");
+    mutate({
+      imageUrl: form.imageUrl,
+      category: form.category,
+      price: parseInt(form.price),
+      color: form.color,
+      size: form.size,
+      name: form.name,
+      description: form.description,
+    });
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">Añadir Producto</h1>
-      {error && <p className="text-red-500 mb-4">{error}</p>}
-      {success && <p className="text-green-500 mb-4">{success}</p>}
+    <div className="mx-auto max-w-4xl p-6">
+      <h1 className="mb-4 text-2xl font-bold">Añadir Producto</h1>
+      {isError && <p className="mb-4 text-red-500">ERROR</p>}
+      {isSuccess && <p className="mb-4 text-green-500">SUCCES</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="name" className="block text-sm font-medium">
@@ -99,7 +61,7 @@ export default function AdminAddProduct() {
             name="name"
             value={form.name}
             onChange={handleChange}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
             required
           />
         </div>
@@ -114,7 +76,7 @@ export default function AdminAddProduct() {
             name="price"
             value={form.price}
             onChange={handleChange}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
             required
           />
         </div>
@@ -128,7 +90,7 @@ export default function AdminAddProduct() {
             name="description"
             value={form.description}
             onChange={handleChange}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
           />
         </div>
 
@@ -142,7 +104,7 @@ export default function AdminAddProduct() {
             name="imageUrl"
             value={form.imageUrl}
             onChange={handleChange}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
             required
           />
         </div>
@@ -156,7 +118,7 @@ export default function AdminAddProduct() {
             name="category"
             value={form.category}
             onChange={handleChange}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
             required
           >
             <option value="">Selecciona una categoría</option>
@@ -175,7 +137,7 @@ export default function AdminAddProduct() {
             name="size"
             value={form.size}
             onChange={handleChange}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
             required
           >
             <option value="">Selecciona un tamaño</option>
@@ -198,14 +160,14 @@ export default function AdminAddProduct() {
             name="color"
             value={form.color}
             onChange={handleChange}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
             required
           />
         </div>
 
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+          className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
         >
           Añadir Producto
         </button>
