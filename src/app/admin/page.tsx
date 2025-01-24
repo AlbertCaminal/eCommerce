@@ -127,6 +127,16 @@ export default function AdminAddProduct() {
             <option value="cinturon">Cinturón</option>
             <option value="camiseta">Camiseta</option>
             <option value="jersey">Jersey</option>
+            <option value="pantalon">Pantalón</option>
+            <option value="gorro">Gorro</option>
+            <option value="abrigo">Abrigo</option>
+            <option value="sudadera">Sudadera</option>
+            <option value="punto">Punto</option>
+            <option value="calzado">Calzado</option>
+            <option value="jeans">Jeans</option>
+            <option value="shorts">Shorts</option>
+            <option value="accesorios">Accesorios</option>
+            <option value="cazoncillos">Calzoncillos</option>
           </select>
         </div>
 
