@@ -2,11 +2,10 @@
 "use client";
 
 import Link from "next/link";
-import { Session } from "next-auth"; // O tu tipo personalizado
-// Importa otras dependencias necesarias
+import { Session } from "next-auth";
 
 interface HeaderProps {
-  session: Session | null; // O tu tipo personalizado
+  session: Session | null;
 }
 
 const Header: React.FC<HeaderProps> = ({ session }) => {
@@ -24,7 +23,7 @@ const Header: React.FC<HeaderProps> = ({ session }) => {
       <div className="relative mx-auto max-w-[2050px] px-3 py-4 xxxs:px-2 xs:px-4 sm:px-6">
         {/* Contenedor Flex Principal */}
         <div className="flex items-center justify-between">
-          {/* Elemento Izquierdo: Dropdown y Navegación para Pantallas Grandes */}
+          {/* Elemento Izquierdo: Dropdown + Search en Pantallas Grandes */}
           <div className="flex items-center">
             {/* Dropdown Menu para dispositivos móviles */}
             <div className="relative flex items-center md:hidden">
@@ -61,30 +60,8 @@ const Header: React.FC<HeaderProps> = ({ session }) => {
 
                   {/* Contenido real del menú */}
                   <div className="relative z-10 p-4">
-                    {/* Navegación Principal */}
-                    <nav className="flex flex-col space-y-2 border-b border-gray-200 pb-4">
-                      <Link
-                        href="/"
-                        className="py-1 text-sm font-bold hover:text-gray-600"
-                      >
-                        HOMBRES
-                      </Link>
-                      <Link
-                        href="/mujeres"
-                        className="py-1 text-sm font-bold hover:text-gray-600"
-                      >
-                        MUJERES
-                      </Link>
-                      <Link
-                        href="/ninos"
-                        className="py-1 text-sm font-bold hover:text-gray-600"
-                      >
-                        NIÑOS
-                      </Link>
-                    </nav>
-
-                    {/* Barra de Búsqueda */}
-                    <div className="mt-4">
+                    {/* Barra de Búsqueda dentro del menú desplegable en móvil */}
+                    <div className="mt-8">
                       <div className="relative">
                         <input
                           type="text"
@@ -125,40 +102,8 @@ const Header: React.FC<HeaderProps> = ({ session }) => {
               </div>
             </div>
 
-            {/* Navegación para pantallas más grandes */}
-            <nav className="hidden items-center gap-6 md:flex">
-              <Link
-                href="/"
-                className="text-sm font-bold text-black xxxs:text-xxxs xs:text-sm lg:text-sm"
-              >
-                HOMBRES
-              </Link>
-              <Link
-                href="/mujeres"
-                className="text-sm hover:text-gray-600 xxxs:text-xxxs xs:text-sm lg:text-sm"
-              >
-                MUJERES
-              </Link>
-              <Link
-                href="/ninos"
-                className="text-sm hover:text-gray-600 xxxs:text-xxxs xs:text-sm lg:text-sm"
-              >
-                NIÑOS
-              </Link>
-            </nav>
-          </div>
-
-          {/* Logo (centrado) */}
-          <div className="absolute left-1/2 z-10 -translate-x-1/2 transform">
-            <h1 className="text-center text-xl font-bold xxxs:text-xl xs:text-xl md:text-xxl lg:text-xxl xl:text-3xl xxxl:text-3xl">
-              <Link href="/">LOGO</Link>
-            </h1>
-          </div>
-
-          {/* Elemento Derecho: Search y Iconos */}
-          <div className="flex items-center gap-4">
-            {/* Search Bar para pantallas más grandes */}
-            <div className="relative hidden md:block">
+            {/* Search Bar para pantallas más grandes (movida a la izquierda) */}
+            <div className="relative hidden md:block ml-4">
               <input
                 type="text"
                 placeholder="BUSCAR..."
@@ -168,36 +113,45 @@ const Header: React.FC<HeaderProps> = ({ session }) => {
                 🔍
               </button>
             </div>
-            <div className="flex items-center gap-3">
-              {session ? (
-                <Link
-                  href="/account"
-                  className="text-lg text-gray-600 hover:text-black xxxs:text-xxxs xs:text-sm lg:text-base xl:text-lg xxxl:text-xl"
-                >
-                  👤
-                </Link>
-              ) : (
-                <Link
-                  href="/api/auth/signin?callbackUrl=/account"
-                  className="text-lg text-gray-600 hover:text-black xxxs:text-xxxs xs:text-sm lg:text-base xl:text-lg xxxl:text-xl"
-                >
-                  👤
-                </Link>
-              )}
+          </div>
 
+          {/* Logo (centrado) */}
+          <div className="absolute left-1/2 z-10 -translate-x-1/2 transform">
+            <h1 className="text-center text-xl font-bold xxxs:text-xl xs:text-xl md:text-xxl lg:text-xxl xl:text-3xl xxxl:text-3xl">
+              <Link href="/">LOGO</Link>
+            </h1>
+          </div>
+
+          {/* Elemento Derecho: Iconos de cuenta, wishlist y carrito */}
+          <div className="flex items-center gap-3 md:gap-4">
+            {session ? (
               <Link
-                href="/wishlist"
+                href="/account"
                 className="text-lg text-gray-600 hover:text-black xxxs:text-xxxs xs:text-sm lg:text-base xl:text-lg xxxl:text-xl"
               >
-                ❤️
+                👤
               </Link>
+            ) : (
               <Link
-                href="/cart"
+                href="/api/auth/signin?callbackUrl=/account"
                 className="text-lg text-gray-600 hover:text-black xxxs:text-xxxs xs:text-sm lg:text-base xl:text-lg xxxl:text-xl"
               >
-                🛒
+                👤
               </Link>
-            </div>
+            )}
+
+            <Link
+              href="/wishlist"
+              className="text-lg text-gray-600 hover:text-black xxxs:text-xxxs xs:text-sm lg:text-base xl:text-lg xxxl:text-xl"
+            >
+              ❤️
+            </Link>
+            <Link
+              href="/cart"
+              className="text-lg text-gray-600 hover:text-black xxxs:text-xxxs xs:text-sm lg:text-base xl:text-lg xxxl:text-xl"
+            >
+              🛒
+            </Link>
           </div>
         </div>
       </div>
