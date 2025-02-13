@@ -158,7 +158,7 @@ const Header: React.FC<HeaderProps> = ({ session }) => {
 
       {/* Secondary Navigation para pantallas más grandes */}
       <div className="hidden border-t border-gray-200 bg-gray-50 py-1 md:block">
-        <div className="container mx-auto flex justify-center gap-5 py-2 text-sm font-bold xxxs:text-xxxs xs:text-sm lg:text-sm xl:text-lg xxxl:text-xl">
+        <div className="container mx-auto flex justify-center gap-7 py-2 text-sm font-bold xxxs:text-xxxs xs:text-sm lg:text-sm xl:text-lg xxxl:text-sm">
           <Link href="/novedades" className="hover:underline">
             NOVEDADES
           </Link>
