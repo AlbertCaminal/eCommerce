@@ -250,13 +250,6 @@ const AccountPage: React.FC = () => {
                 Desconexión
               </Link>
 
-              {/* Botón para Eliminar cuenta */}
-              <button
-                onClick={handleDeleteUser}
-                className="mt-4 w-full bg-red-500 text-white py-2 hover:bg-red-600 transition text-sm"
-              >
-                Eliminar cuenta
-              </button>
             </div>
           </aside>
 
