@@ -171,23 +171,26 @@ export default async function Shop({ searchParams }: any) {
 
               {/* Product grid */}
               <div className={`grid grid-cols-1 ${gridSize} gap-6`}>
-                {products.map((product) => (
-                  <div key={product.id}>
-                    <Image
-                      src={product.imageUrl}
-                      alt={product.name}
-                      width={imageSize}
-                      height={imageSize}
-                      className="object-cover"
-                    />
+                {products.map((products) => (
+                  <div key={products.id}>
+                    {products.images?.map((url, i) => (
+                      <Image
+                        key={i}
+                        src={url}
+                        alt={products.name}
+                        width={imageSize}
+                        height={imageSize}
+                        className="object-cover"
+                      />
+                    ))}
                     <h2 className="mt-2 text-base text-gray-800 xxs:text-xs xs:text-sm">
-                      {product.name}
+                      {products.name}
                     </h2>
                     <p className="text-black-500 text-sm font-bold xxs:text-xxs xs:text-xs">
-                      ${product.price}
+                      ${products.price}
                     </p>
                     <Link
-                      href={`/product/${product.id}`}
+                      href={`/product/${products.id}`}
                       className="text-sm text-black hover:underline xxs:text-xxs xs:text-xs"
                     >
                       Ver detalles

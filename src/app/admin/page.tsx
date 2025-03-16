@@ -37,7 +37,7 @@ export default function AdminAddProduct() {
     console.log("Submitting form", { form });
     if (!form.price) throw new Error("BROOO MISSING PRICE");
     mutate({
-      imageUrl: form.imageUrl,
+      imageUrls: [form.imageUrl],
       category: form.category,
       price: parseInt(form.price),
       color: form.color,

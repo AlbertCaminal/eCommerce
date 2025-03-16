@@ -159,16 +159,20 @@ export const products = sqliteTable("products", {
   name: text("name").notNull(),
   price: integer("price").notNull(),
   description: text("description"),
-  imageUrl: text("image_url").notNull(),
   category: text("category").$type<ProductCategory>().notNull(),
   size: text("size").$type<ProductSize>().notNull(),
   color: text("color").notNull(),
 });
 
-export const productImages = sqliteTable("product_images", {
-  id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
-  productId: integer("product_id", { mode: "number" })
-    .notNull()
-    .references(() => products.id), // FK que apunta a products.id
-  url: text("url").notNull(),
-});
+export const productImages = sqliteTable(
+  "product_images",
+  {
+    productId: integer("product_id", { mode: "number" })
+      .notNull()
+      .references(() => products.id), // FK que apunta a products.id
+    url: text("url").notNull(),
+  },
+  (vt) => ({
+    compoundKey: primaryKey({ columns: [vt.productId, vt.url] }),
+  }),
+);

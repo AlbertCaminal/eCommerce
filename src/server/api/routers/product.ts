@@ -1,18 +1,28 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { z } from "zod";
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 // IMPORTA tus tablas desde schema.ts
-import { products, productImages, ProductSize } from "~/server/db/schema";
+import { products, productImages } from "~/server/db/schema";
+import { sql, eq, getTableColumns } from "drizzle-orm";
 
 export const productsRouter = createTRPCRouter({
   // Ejemplo de endpoint existente
   getAllProducts: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.db.select().from(products);
+    const results = await ctx.db
+      .select({
+        ...getTableColumns(products),
+        images: sql`json_group_array(${productImages.url})`.as("images"),
+      })
+      .from(products)
+      .leftJoin(productImages, eq(products.id, productImages.productId))
+      .groupBy(...Object.values(getTableColumns(products)));
+
+    return results.map(({ images, ...rest }) => ({
+      ...rest,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      images: images ? (JSON.parse(images as string) as Array<string>) : null,
+    }));
   }),
 
   // Nuevo endpoint para insertar múltiples imágenes
@@ -45,26 +55,35 @@ export const productsRouter = createTRPCRouter({
         color: z.string(),
         price: z.number(),
         category: z.string(),
-        imageUrl: z.string(),
         description: z.string(),
+        imageUrls: z.array(z.string()),
       }),
     )
     .mutation(
       async ({
         ctx,
-        input: { name, size, color, price, category, imageUrl, description },
+        input: { name, size, color, price, category, description, imageUrls },
       }) => {
-        return await ctx.db.insert(products).values({
-          name,
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
-          size: size as any,
-          color,
-          price,
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
-          category: category as any,
-          imageUrl,
-          description,
-        });
+        const product = await ctx.db
+          .insert(products)
+          .values({
+            name,
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+            size: size as any,
+            color,
+            price,
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+            category: category as any,
+            description,
+          })
+          .returning({ insertedId: products.id });
+
+        await ctx.db.insert(productImages).values(
+          imageUrls.map((url) => ({
+            productId: product[0]!.insertedId,
+            url,
+          })),
+        );
       },
     ),
 });
